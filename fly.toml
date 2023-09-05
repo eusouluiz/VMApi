@@ -1,0 +1,82 @@
+# fly.toml app configuration file generated for vmapi on 2023-09-05T00:15:45-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "vmapi"
+primary_region = "gru"
+console_command = "php /var/www/html/artisan tinker"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.2"
+
+[env]
+  APP_ENV = "production"
+  APP_URL = "https://vmapi.fly.dev"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  SESSION_DRIVER = "cookie"
+  SESSION_SECURE_COOKIE = "true"
+
+  APP_NAME="Carbonaut Boilerplate"
+  APP_DOMAIN="vmapi.fly.dev"
+  APP_KEY=""
+  APP_DEBUG=false
+
+  DB_CONNECTION="pgsql"
+  DB_HOST="db.uatspjoodeqhbhubdgrh.supabase.co"
+  DB_PORT="5432"
+  DB_DATABASE="postgres"
+  DB_USERNAME="postgres"
+  DB_PASSWORD="0VmmF6r8wlomRaYV"
+
+  BROADCAST_DRIVER="log"
+  CACHE_DRIVER="file"
+  FILESYSTEM_DISK="local"
+  QUEUE_CONNECTION="database"
+  SESSION_LIFETIME="120"
+
+  MEMCACHED_HOST="127.0.0.1"
+
+  REDIS_HOST="127.0.0.1"
+  REDIS_PASSWORD="null"
+  REDIS_PORT="6379"
+
+  MAIL_MAILER="smtp"
+  MAIL_HOST=""
+  MAIL_PORT="587"
+  MAIL_USERNAME=""
+  MAIL_PASSWORD=""
+  MAIL_ENCRYPTION="tls"
+  MAIL_FROM_ADDRESS=""
+  MAIL_FROM_NAME="${APP_NAME}"
+
+  PUSHER_APP_ID=""
+  PUSHER_APP_KEY=""
+  PUSHER_APP_SECRET=""
+  PUSHER_HOST=""
+  PUSHER_PORT="443"
+  PUSHER_SCHEME="https"
+  PUSHER_APP_CLUSTER="mt1"
+
+  VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+  VITE_PUSHER_HOST="${PUSHER_HOST}"
+  VITE_PUSHER_PORT="${PUSHER_PORT}"
+  VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+  VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+  ROLLBAR_TOKEN=""
+  ROLLBAR_LEVEL="error"
+  FLY_REGISTRY_HOST="registry-iad.fly.io"
+
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]

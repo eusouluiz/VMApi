@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            $domain = config('app.domain');
+            $domain = strval(config('app.domain'));
             assert(is_string($domain));
 
             Route::middleware('api')

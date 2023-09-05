@@ -18,10 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['block-in-production'])->group(function () {
-    Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
-    Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
-});
+// Route::middleware(['block-in-production'])->group(function () {
+//     Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
+//     Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
+// });
+
+Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
+Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
 
 Route::get('/status', [StatusController::class, 'getStatus']);
 
