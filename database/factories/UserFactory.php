@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\Language;
+use App\Enums\TipoUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'           => fake()->name(),
+            'nome'           => fake()->name(),
+            'cpf'            => fake('pt_BR')->unique()->cpf(false),
+            'tipo'           => fake()->randomElement(TipoUser::cases()),
             'email'          => fake()->unique()->safeEmail(),
             'language'       => Language::randomCase()->value,
             'password'       => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

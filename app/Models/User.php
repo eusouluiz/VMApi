@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\TipoUser;
 use App\Traits\ResolveRouteBinding;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,7 +44,9 @@ class User extends Authenticatable implements HasLocalePreference
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nome',
+        'cpf',
+        'tipo',
         'email',
         'password',
         'language',
@@ -68,6 +72,7 @@ class User extends Authenticatable implements HasLocalePreference
      * @var array<string, string>
      */
     protected $casts = [
+        'tipo'                               => TipoUser::class,
         'email_verified_at'                  => 'datetime',
         'email_verification_code_expires_at' => 'datetime',
     ];
@@ -108,6 +113,36 @@ class User extends Authenticatable implements HasLocalePreference
     public function devices(): HasMany
     {
         return $this->hasMany(Device::class);
+    }
+
+    /**
+     * Get the funcionario associated with the user.
+     *
+     * @return HasOne<Funcionario>
+     */
+    public function funcionario(): HasOne
+    {
+        return $this->hasOne(Funcionario::class);
+    }
+
+    /**
+     * Get the responsavel associated with the user.
+     *
+     * @return HasOne<Responsavel>
+     */
+    public function responsavel(): HasOne
+    {
+        return $this->hasOne(Responsavel::class);
+    }
+
+    /*
+    * Get the mensagens sent by the user.
+    *
+    * @return HasMany<Mensagem>
+    */
+    public function mensagens(): HasMany
+    {
+        return $this->hasMany(Mensagem::class);
     }
 
     // ======================================================================
