@@ -24,13 +24,21 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        // RateLimiter::for('api', function (Request $request) {
+        //     return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        // });
+
+        $this->configureRateLimiting();
 
         $this->routes(function () {
+
             $domain = strval(config('app.domain'));
             assert(is_string($domain));
+
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
 
             Route::middleware('api')
                 ->domain('api.' . $domain)
@@ -43,6 +51,13 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->domain($domain)
                 ->group(base_path('routes/web.php'));
+        });
+    }
+
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 }

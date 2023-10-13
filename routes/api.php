@@ -1,11 +1,15 @@
 <?php
 
+
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AlunoController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
 //     Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
 // });
+
+
+
 
 Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
 Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
@@ -56,3 +63,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/auth/logout/all', [Auth\PrivateController::class, 'postLogoutAll']);
     Route::post('/auth/password/change', [Auth\PrivateController::class, 'postPasswordChange']);
 });
+
+
+
+
+Route::prefix('vmapp')->group(function () {
+
+    Route::resource('aluno', AlunoController::class);
+    // Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
+    
+});
+
+
