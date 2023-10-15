@@ -21,6 +21,7 @@ class Responsavel extends BaseModel
     */
     protected $fillable = [
         'nome',
+        'user_id',
     ];
 
     /*

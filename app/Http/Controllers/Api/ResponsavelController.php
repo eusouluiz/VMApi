@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
+use App\Models\Responsavel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 
-class UserController extends Controller
+class ResponsavelController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
@@ -22,20 +21,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $responsavel = Responsavel::all();
 
-        if ($users->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $users], 404);
+        if ($responsavel->isEmpty()) {
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $responsavel], 404);
         }
 
-        return response()->json($users, 200);
+        return response()->json($responsavel, 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http Response
      */
     public function store(Request $request)
     {
@@ -43,20 +42,16 @@ class UserController extends Controller
 
         $validator = Validator::make($data, [
             'nome' => 'required',
-            'cpf' => 'required|unique:users',
-            'telefone' => 'nullable',
-            'tipo' => 'required',
-            'email' => 'unique:users|nullable',
-            'password' => 'required',
+            'user_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::create($data);
+        $responsavel = Responsavel::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $user], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $responsavel], 200);
     }
 
     /**
@@ -67,13 +62,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $responsavel = Responsavel::find($id);
 
-        if (!$user) {
+        if (!$responsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($user, 200);
+        return response()->json($responsavel, 200);
     }
 
     /**
@@ -81,13 +76,13 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http Response
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        $responsavel = Responsavel::find($id);
 
-        if (!$user) {
+        if (!$responsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
@@ -95,37 +90,33 @@ class UserController extends Controller
 
         $validator = Validator::make($data, [
             'nome' => 'required',
-            'cpf' => 'required|unique:users,cpf,' . $id,
-            'telefone' => 'nullable',
-            'tipo' => 'required',
-            'email' => 'unique:users,email,' . $id . '|nullable',
-            'password' => 'required',
+            'user_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $user->update($data);
+        $responsavel->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $user], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $responsavel], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http Response
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $responsavel = Responsavel::find($id);
 
-        if (!$user) {
+        if (!$responsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        $user->delete();
+        $responsavel->delete();
 
         return response()->json(['msg' => 'Registro removido com sucesso!'], 200);
     }

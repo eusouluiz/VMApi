@@ -48,6 +48,7 @@ class User extends Authenticatable implements HasLocalePreference
         'cpf',
         'tipo',
         'email',
+        'telefone',
         'password',
         'language',
         'email_verified_at',

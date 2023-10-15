@@ -71,6 +71,8 @@ Route::prefix('vmapp')->group(function () {
 
     Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
     Route::Resource('turma', 'App\Http\Controllers\Api\TurmaController');
+    Route::Resource('responsavel', 'App\Http\Controllers\Api\ResponsavelController');
+    Route::Resource('user', 'App\Http\Controllers\Api\UserController');
 
     
 });
