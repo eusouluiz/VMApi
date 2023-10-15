@@ -69,8 +69,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::prefix('vmapp')->group(function () {
 
-    Route::resource('aluno', AlunoController::class);
-    // Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
+    // Route::resource('aluno', AlunoController::class);
+    Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
+
     
 });
 
