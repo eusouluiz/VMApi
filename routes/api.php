@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AlunoController;
+
 
 
 
@@ -69,8 +69,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::prefix('vmapp')->group(function () {
 
-    // Route::resource('aluno', AlunoController::class);
     Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
+    Route::Resource('turma', 'App\Http\Controllers\Api\TurmaController');
 
     
 });

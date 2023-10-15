@@ -23,13 +23,13 @@ class AlunoController extends Controller
      */
     public function index()
     {
-        $alunos = Aluno::all();
+        $aluno = Aluno::all();
 
-        if ($alunos->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado'], 404);
+        if ($aluno->isEmpty()) {
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $aluno], 404);
         }
 
-        return response()->json($alunos, 200);
+        return response()->json($aluno, 200);
     }
 
 
@@ -54,7 +54,7 @@ class AlunoController extends Controller
 
         $aluno = Aluno::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $aluno], 201);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $aluno], 200);
     }
 
     /**
