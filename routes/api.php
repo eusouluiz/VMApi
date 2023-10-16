@@ -73,6 +73,7 @@ Route::prefix('vmapp')->group(function () {
     Route::Resource('turma', 'App\Http\Controllers\Api\TurmaController');
     Route::Resource('responsavel', 'App\Http\Controllers\Api\ResponsavelController');
     Route::Resource('user', 'App\Http\Controllers\Api\UserController');
+    Route::Resource('cargo', 'App\Http\Controllers\Api\CargoController');
 
     
 });
