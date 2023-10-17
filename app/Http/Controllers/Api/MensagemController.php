@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Aviso;
+use App\Models\Mensagem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Carbon\Carbon;
 
-
-class AvisoController extends Controller
+class MensagemController extends Controller
 {
     public function __construct()
     {
@@ -21,16 +20,15 @@ class AvisoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        $aviso = Aviso::all();
+        $mensagem = Mensagem::all();
 
-        if ($aviso->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $aviso], 404);
+        if ($mensagem->isEmpty()) {
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $mensagem], 404);
         }
 
-        return response()->json($aviso, 200);
+        return response()->json($mensagem, 200);
     }
 
     /**
@@ -42,25 +40,25 @@ class AvisoController extends Controller
     public function store(Request $request)
     {
 
-
-        if ($request->data_publicacao !== null) {
-            $request->merge(['data_publicacao' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_publicacao)->format('Y-m-d H:i:s')]);
+        if ($request->data_leitura !== null) {
+            $request->merge(['data_leitura' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_leitura)->format('Y-m-d H:i:s')]);
         }
 
 
-        if ($request->data_expiracao !== null) {
-            $request->merge(['data_expiracao' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_expiracao)->format('Y-m-d H:i:s')]);
+        if ($request->data_envio !== null) {
+            $request->merge(['data_envio' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_envio)->format('Y-m-d H:i:s')]);
         }
+
 
         $data = $request->all();
 
         $validator = Validator::make($data, [
             'texto' => 'nullable',
             'arquivo' => 'nullable',
-            'data_publicacao' => 'required',
-            'data_expiracao' => 'nullable',
-            'prioridade' => 'nullable',
-            'funcionario_id' => 'required',
+            'lida' => 'boolean',
+            'data_leitura' => 'nullable',
+            'data_envio' => 'required',
+            'user_id' => 'required',
             'canal_id' => 'required',
         ]);
 
@@ -68,26 +66,26 @@ class AvisoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $aviso = Aviso::create($data);
+        $mensagem = Mensagem::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $aviso], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $mensagem], 200);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http Response
      */
     public function show($id)
     {
-        $aviso = Aviso::find($id);
+        $mensagem = Mensagem::find($id);
 
-        if (!$aviso) {
+        if (!$mensagem) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($aviso, 200);
+        return response()->json($mensagem, 200);
     }
 
     /**
@@ -100,19 +98,19 @@ class AvisoController extends Controller
     public function update(Request $request, $id)
     {
 
-        if ($request->data_publicacao !== null) {
-            $request->merge(['data_publicacao' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_publicacao)->format('Y-m-d H:i:s')]);
+
+        if ($request->data_leitura !== null) {
+            $request->merge(['data_leitura' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_leitura)->format('Y-m-d H:i:s')]);
         }
 
 
-        if ($request->data_expiracao !== null) {
-            $request->merge(['data_expiracao' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_expiracao)->format('Y-m-d H:i:s')]);
+        if ($request->data_envio !== null) {
+            $request->merge(['data_envio' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_envio)->format('Y-m-d H:i:s')]);
         }
 
+        $mensagem = Mensagem::find($id);
 
-        $aviso = Aviso::find($id);
-
-        if (!$aviso) {
+        if (!$mensagem) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
@@ -121,10 +119,10 @@ class AvisoController extends Controller
         $validator = Validator::make($data, [
             'texto' => 'nullable',
             'arquivo' => 'nullable',
-            'data_publicacao' => 'required',
-            'data_expiracao' => 'nullable',
-            'prioridade' => 'nullable',
-            'funcionario_id' => 'required',
+            'lida' => 'boolean',
+            'data_leitura' => 'nullable',
+            'data_envio' => 'required',
+            'user_id' => 'required',
             'canal_id' => 'required',
         ]);
 
@@ -132,9 +130,9 @@ class AvisoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $aviso->update($data);
+        $mensagem->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $aviso], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $mensagem], 200);
     }
 
     /**
@@ -145,13 +143,13 @@ class AvisoController extends Controller
      */
     public function destroy($id)
     {
-        $aviso = Aviso::find($id);
+        $mensagem = Mensagem::find($id);
 
-        if (!$aviso) {
+        if (!$mensagem) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        $aviso->delete();
+        $mensagem->delete();
 
         return response()->json(['msg' => 'Registro removido com sucesso!'], 200);
     }

@@ -31,8 +31,8 @@ class Aviso extends BaseModel
      */
     protected $casts = [
         'prioridade'      => PrioridadeAviso::class,
-        'data_publicacao' => 'date',
-        'data_expiracao'  => 'date',
+        'data_publicacao' => 'datetime',
+        'data_expiracao'  => 'datetime',
     ];
 
     /**

@@ -24,6 +24,8 @@ class Mensagem extends BaseModel
         'lida',
         'data_leitura',
         'data_envio',
+        'user_id',
+        'canal_id',
     ];
 
     /*

@@ -14,8 +14,8 @@ return new class() extends Migration {
             $table->uuid('id')->primary();
             $table->text('texto')->nullable();
             $table->string('arquivo')->nullable();
-            $table->date('data_publicacao');
-            $table->date('data_expiracao')->nullable();
+            $table->dateTime('data_publicacao');
+            $table->dateTime('data_expiracao')->nullable();
             $table->string('prioridade')->default('normal');
 
             $table->foreignUuid('funcionario_id')
