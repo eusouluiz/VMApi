@@ -79,6 +79,7 @@ Route::prefix('vmapp')->group(function () {
     Route::Resource('canal', 'App\Http\Controllers\Api\CanalController');
     Route::Resource('aviso', 'App\Http\Controllers\Api\AvisoController');
     Route::Resource('mensagem', 'App\Http\Controllers\Api\MensagemController');
+    Route::Resource('lembrete', 'App\Http\Controllers\Api\LembreteController');
 
     
 });
