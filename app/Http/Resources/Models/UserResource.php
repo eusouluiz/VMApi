@@ -26,10 +26,15 @@ class UserResource extends BaseResource
     {
         return [
             'user_id'        => $this->resource->id,
-            'name'           => $this->resource->name,
+            'nome'           => $this->resource->name,
+            'cpf'            => $this->resource->cpf,
+            'telefone'       => $this->resource->telefone,
+            'tipo'           => $this->resource->tipo,
             'email'          => $this->resource->email,
             'language'       => $this->resource->language,
             'email_verified' => $this->resource->email_verified,
+            'responsavel'    => new ResponsavelResource($this->whenLoaded('responsavel')),
+            'funcionario'    => new FuncionarioResource($this->whenLoaded('funcionario')),
         ];
     }
 }

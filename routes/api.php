@@ -1,11 +1,15 @@
 <?php
 
+
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\StatusController;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
 //     Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
 // });
+
+
+
 
 Route::get('/', [ApiController::class, 'getApi'])->name('get.api.ui');
 Route::get('/api/documentation', [ApiController::class, 'getApiDocumentation'])->name('get.api.documentation');
@@ -56,3 +63,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/auth/logout/all', [Auth\PrivateController::class, 'postLogoutAll']);
     Route::post('/auth/password/change', [Auth\PrivateController::class, 'postPasswordChange']);
 });
+
+
+
+
+Route::prefix('vmapp')->group(function () {
+
+    Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
+    Route::Resource('turma', 'App\Http\Controllers\Api\TurmaController');
+    Route::Resource('responsavel', 'App\Http\Controllers\Api\ResponsavelController');
+    Route::Resource('user', 'App\Http\Controllers\Api\UserController');
+    Route::Resource('cargo', 'App\Http\Controllers\Api\CargoController');
+    Route::Resource('funcionario', 'App\Http\Controllers\Api\FuncionarioController');
+    Route::Resource('funcionalidade', 'App\Http\Controllers\Api\FuncionalidadeController');
+    Route::Resource('canal', 'App\Http\Controllers\Api\CanalController');
+    Route::Resource('aviso', 'App\Http\Controllers\Api\AvisoController');
+    Route::Resource('mensagem', 'App\Http\Controllers\Api\MensagemController');
+    Route::Resource('lembrete', 'App\Http\Controllers\Api\LembreteController');
+
+    
+});
+
+
