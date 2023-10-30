@@ -17,7 +17,8 @@ class TurmaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nome'      => $this->faker->name(),
+            'descricao' => $this->faker->text(),
         ];
     }
 }
