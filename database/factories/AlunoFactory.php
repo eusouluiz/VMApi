@@ -17,7 +17,8 @@ class AlunoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'cgm'  => $this->faker->randomNumber(5),
+            'nome' => $this->faker->name(),
         ];
     }
 }

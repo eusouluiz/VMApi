@@ -23,7 +23,7 @@ class Aluno extends BaseModel
      *
      * @return BelongsTo<Turma, Aluno>
      */
-    public function turmas(): BelongsTo
+    public function turma(): BelongsTo
     {
         return $this->belongsTo(Turma::class);
     }
