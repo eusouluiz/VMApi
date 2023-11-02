@@ -18,4 +18,4 @@ yarn-error.log
 /.phpunit.cache
 /storage/clockwork
 .env.test
-/laradock/
+/laradock
