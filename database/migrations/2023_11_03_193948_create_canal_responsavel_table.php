@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('canal_responsavel', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('canal_id')->constrained('canais')->onDelete('cascade');
             $table->foreignUuid('responsavel_id')->constrained('responsaveis')->onDelete('cascade');
 
-            $table->unique(['canal_id', 'responsavel_id'], 'uc_canal_responsavel');
-            $table->primary(['canal_id', 'responsavel_id']);
+            $table->unique(['canal_id', 'responsavel_id']);
         });
     }
 
