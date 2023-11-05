@@ -24,10 +24,8 @@ class PostLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => [
+            'cpf' => [
                 'required',
-                'email:filter',
-                'lowercase',
             ],
             'password' => [
                 'required',
@@ -44,12 +42,12 @@ class PostLoginRequest extends FormRequest
      */
     public function all($keys = null)
     {
-        $email = $this->get('email');
+        $cpf = $this->get('cpf');
 
-        if (is_string($email)) {
+        if (is_string($cpf)) {
             return array_merge(
                 parent::all($keys),
-                ['email' => strtolower($email)]
+                ['cpf' => strtolower($cpf)]
             );
         }
 

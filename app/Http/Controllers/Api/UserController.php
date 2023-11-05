@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 
 class UserController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
@@ -34,7 +34,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,11 +43,11 @@ class UserController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
-            'cpf' => 'required|unique:users',
+            'nome'     => 'required',
+            'cpf'      => 'required|unique:users',
             'telefone' => 'nullable',
-            'tipo' => 'required',
-            'email' => 'unique:users|nullable',
+            'tipo'     => 'required',
+            'email'    => 'unique:users|nullable',
             'password' => 'required',
         ]);
 
@@ -62,7 +63,8 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,9 +81,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -94,11 +97,11 @@ class UserController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
-            'cpf' => 'required|unique:users,cpf,' . $id,
+            'nome'     => 'required',
+            'cpf'      => 'required|unique:users,cpf,' . $id,
             'telefone' => 'nullable',
-            'tipo' => 'required',
-            'email' => 'unique:users,email,' . $id . '|nullable',
+            'tipo'     => 'required',
+            'email'    => 'unique:users,email,' . $id . '|nullable',
             'password' => 'required',
         ]);
 
@@ -106,7 +109,14 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user->update($data);
+        $user->update([
+            'nome'     => $data['nome'],
+            'cpf'      => $data['cpf'],
+            'telefone' => $data['telefone'],
+            'tipo'     => $data['tipo'],
+            'email'    => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 
         return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $user], 200);
     }
@@ -114,7 +124,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

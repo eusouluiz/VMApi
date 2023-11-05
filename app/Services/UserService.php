@@ -110,8 +110,15 @@ class UserService
                 'min:3',
                 'max:255',
             ],
-            'email' => [
+            'cpf' => [
                 'required',
+                'string',
+                'min:11',
+                'max:11',
+                'unique:users,cpf',
+            ],
+            'email' => [
+                'nullable',
                 'string',
                 'email:filter',
                 'max:255',
@@ -123,18 +130,14 @@ class UserService
                 'string',
                 Rules\Password::defaults(),
             ],
-            'language' => [
-                'required',
-                'string',
-                new Rules\Enum(Language::class),
-            ],
         ])->validate();
 
         $user = User::create([
             'name'                               => $validated['name'],
+            'cpf'                                => $validated['cpf'],
             'email'                              => $validated['email'],
             'password'                           => Hash::make($validated['password']),
-            'language'                           => $validated['language'],
+            'language'                           => Language::BrazilianPortuguese,
             'email_verified_at'                  => null,
             'email_verification_code'            => rand(100000, 999999),
             'email_verification_code_expires_at' => now()->addHour(),
