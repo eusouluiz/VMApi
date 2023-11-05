@@ -26,7 +26,7 @@ class PublicController extends UnauthenticatedController
      */
     public function postLogin(PostLoginRequest $request): NewAccessTokenResource
     {
-        if (!Auth::attempt($request->only(['email', 'password']))) {
+        if (!Auth::attempt($request->only(['cpf', 'password']))) {
             throw new TranslatableException(
                 401,
                 'Invalid credentials.',
