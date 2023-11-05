@@ -85,6 +85,8 @@ Route::prefix('vmapp')->group(function () {
     Route::post('cargo-funcionalidade', 'App\Http\Controllers\Api\CargoFuncionalidadeController@store');
     Route::post('canal-cargo', 'App\Http\Controllers\Api\CanalCargoController@store');
     Route::post('aviso-responsavel', 'App\Http\Controllers\Api\AvisoResponsavelController@store');
+    Route::post('aviso-turma', 'App\Http\Controllers\Api\AvisoTurmaController@store');
+
 
 
 
