@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Enums\TipoUser;
 use App\Http\Controllers\Controller;
-use Validator;
+use App\Http\Resources\Models\UserResource;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
@@ -18,35 +21,36 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $users = User::all();
 
         if ($users->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $users], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => UserResource::collection($users)], 404);
         }
 
-        return response()->json($users, 200);
+        return response()->json(UserResource::collection($users), 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
-            'cpf' => 'required|unique:users',
+            'nome'     => 'required',
+            'cpf'      => 'required|unique:users',
             'telefone' => 'nullable',
-            'tipo' => 'required',
-            'email' => 'unique:users|nullable',
+            'tipo'     => 'required',
+            'email'    => 'unique:users|nullable',
             'password' => 'required',
         ]);
 
@@ -54,16 +58,27 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::create($data);
+        $user = new User($data);
+        $user->password = Hash::make($data['password']);
+        $user->save();
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $user], 200);
+        if ($user->tipo == TipoUser::Responsavel || $user->tipo == TipoUser::Ambos) {
+            $user->responsavel()->create();
+        }
+
+        if ($user->tipo == TipoUser::Funcionario || $user->tipo == TipoUser::Ambos) {
+            $user->funcionario()->create($data);
+        }
+
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new UserResource($user)], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -73,15 +88,18 @@ class UserController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($user, 200);
+        $user->loadMissing('responsavel', 'funcionario');
+
+        return response()->json(new UserResource($user), 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -94,11 +112,11 @@ class UserController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
-            'cpf' => 'required|unique:users,cpf,' . $id,
+            'nome'     => 'required',
+            'cpf'      => 'required|unique:users,cpf,' . $id,
             'telefone' => 'nullable',
-            'tipo' => 'required',
-            'email' => 'unique:users,email,' . $id . '|nullable',
+            'tipo'     => 'required',
+            'email'    => 'unique:users,email,' . $id . '|nullable',
             'password' => 'required',
         ]);
 
@@ -106,16 +124,24 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user->update($data);
+        $user->update([
+            'nome'     => $data['nome'],
+            'cpf'      => $data['cpf'],
+            'telefone' => $data['telefone'],
+            'tipo'     => $data['tipo'],
+            'email'    => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $user], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new UserResource($user)], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

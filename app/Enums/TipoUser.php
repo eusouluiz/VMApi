@@ -6,9 +6,9 @@ enum TipoUser: string
 {
     use EnumTrait;
 
-    case Responsavel = 'responsavel';
-    case Funcionario = 'funcionario';
-    case Ambos = 'ambos';
+    case Responsavel = 'R';
+    case Funcionario = 'F';
+    case Ambos = 'A';
 
     /**
      * Custom labels defined for each enum case.
