@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignUuid('responsavel_id')->constrained('responsaveis')->onDelete('cascade');
 
             $table->unique(['canal_id', 'responsavel_id']);
+            
+            $table->timestamps();
         });
     }
 

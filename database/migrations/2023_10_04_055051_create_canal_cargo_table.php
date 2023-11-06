@@ -11,11 +11,13 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('canal_cargo', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('canal_id')->constrained('canais')->onDelete('cascade');
             $table->foreignUuid('cargo_id')->constrained('cargos')->onDelete('cascade');
 
             $table->unique(['canal_id', 'cargo_id']);
-            $table->primary(['canal_id', 'cargo_id']);
+   
+            $table->timestamps();
         });
     }
 

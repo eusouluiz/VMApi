@@ -12,12 +12,15 @@ return new class () extends Migration
     public function up(): void
     {
         Schema::create('aviso_responsavel', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('aviso_id')->constrained('avisos')->onDelete('cascade');
             $table->foreignUuid('responsavel_id')->constrained('responsaveis')->onDelete('cascade');
             $table->boolean('ind_visualizacao')->default(false);
 
             $table->unique(['aviso_id', 'responsavel_id']);
-            $table->primary(['aviso_id', 'responsavel_id']);
+            
+            $table->timestamps();
+
         });
     }
 
