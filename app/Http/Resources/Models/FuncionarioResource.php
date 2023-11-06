@@ -20,7 +20,7 @@ class FuncionarioResource extends BaseResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array<string, bool|string>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
