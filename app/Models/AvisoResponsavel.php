@@ -2,25 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AvisoResponsavel extends Model
+class AvisoResponsavel extends BaseModel
 {
-    use HasFactory;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'aviso_responsavel';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'aviso_id',
         'responsavel_id',
@@ -28,17 +16,21 @@ class AvisoResponsavel extends Model
     ];
 
     /**
-     * Get the aviso associated with the aviso_responsavel.
+     * Get the aviso associated with the AvisoResponsavel.
+     *
+     * @return BelongsTo<Aviso>
      */
-    public function aviso()
+    public function aviso(): BelongsTo
     {
         return $this->belongsTo(Aviso::class, 'aviso_id');
     }
 
     /**
-     * Get the responsavel associated with the aviso_responsavel.
+     * Get the responsavel associated with the AvisoResponsavel.
+     *
+     * @return BelongsTo<Responsavel>
      */
-    public function responsavel()
+    public function responsavel(): BelongsTo
     {
         return $this->belongsTo(Responsavel::class, 'responsavel_id');
     }
