@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Aluno;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Validator;
-use DB;
 
 class AlunoController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
@@ -32,11 +30,11 @@ class AlunoController extends Controller
         return response()->json($aluno, 200);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -45,7 +43,7 @@ class AlunoController extends Controller
 
         $validator = Validator::make($data, [
             'nome' => 'required',
-            'cgm' => 'required|unique:alunos'
+            'cgm'  => 'required|unique:alunos',
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +58,9 @@ class AlunoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Aluno  $aluno
+     * @param \App\Models\Aluno $aluno
+     * @param mixed             $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,12 +74,13 @@ class AlunoController extends Controller
         return response()->json($aluno, 200);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Aluno  $aluno
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Aluno        $aluno
+     * @param mixed                    $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -94,7 +95,7 @@ class AlunoController extends Controller
 
         $validator = Validator::make($data, [
             'nome' => 'required',
-            'cgm' => 'required|unique:alunos,cgm,' . $id
+            'cgm'  => 'required|unique:alunos,cgm,' . $id,
         ]);
 
         if ($validator->fails()) {
@@ -109,7 +110,9 @@ class AlunoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Aluno  $aluno
+     * @param \App\Models\Aluno $aluno
+     * @param mixed             $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\TipoUser;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Models\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -18,17 +21,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $users = User::all();
 
         if ($users->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $users], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => UserResource::collection($users)], 404);
         }
 
-        return response()->json($users, 200);
+        return response()->json(UserResource::collection($users), 200);
     }
 
     /**
@@ -36,9 +39,9 @@ class UserController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $data = $request->all();
 
@@ -55,9 +58,19 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::create($data);
+        $user = new User($data);
+        $user->password = Hash::make($data['password']);
+        $user->save();
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $user], 200);
+        if ($user->tipo == TipoUser::Responsavel || $user->tipo == TipoUser::Ambos) {
+            $user->responsavel()->create();
+        }
+
+        if ($user->tipo == TipoUser::Funcionario || $user->tipo == TipoUser::Ambos) {
+            $user->funcionario()->create($data);
+        }
+
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new UserResource($user)], 200);
     }
 
     /**
@@ -65,7 +78,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -75,7 +88,9 @@ class UserController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($user, 200);
+        $user->loadMissing('responsavel', 'funcionario');
+
+        return response()->json(new UserResource($user), 200);
     }
 
     /**
@@ -118,7 +133,7 @@ class UserController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $user], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new UserResource($user)], 200);
     }
 
     /**
@@ -126,7 +141,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

@@ -20,13 +20,13 @@ class UserResource extends BaseResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array<string, bool|string>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
         return [
             'user_id'        => $this->resource->id,
-            'nome'           => $this->resource->name,
+            'nome'           => $this->resource->nome,
             'cpf'            => $this->resource->cpf,
             'telefone'       => $this->resource->telefone,
             'tipo'           => $this->resource->tipo,
