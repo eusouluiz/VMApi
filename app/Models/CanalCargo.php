@@ -9,6 +9,12 @@ class CanalCargo extends BaseModel
 {
     protected $table = 'canal_cargo';
 
+    /*
+    * The attributes that are mass assignable.
+    *
+    * @var array<int, string>
+    */
+
     protected $fillable = [
         'canal_id',
         'cargo_id',

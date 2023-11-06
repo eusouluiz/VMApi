@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CanalResponsavel extends BaseModel
 {
+
+    protected $table = 'canal_responsavel';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
 
-    protected $table = 'canal_responsavel'; 
-    
     protected $fillable = [
         'canal_id',
         'responsavel_id',
@@ -38,6 +39,4 @@ class CanalResponsavel extends BaseModel
     {
         return $this->belongsTo(Responsavel::class, 'responsavel_id');
     }
-
-
 }

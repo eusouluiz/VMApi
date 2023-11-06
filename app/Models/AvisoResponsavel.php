@@ -9,6 +9,12 @@ class AvisoResponsavel extends BaseModel
 {
     protected $table = 'aviso_responsavel';
 
+    /*
+    * The attributes that are mass assignable.
+    *
+    * @var array<int, string>
+    */
+
     protected $fillable = [
         'aviso_id',
         'responsavel_id',

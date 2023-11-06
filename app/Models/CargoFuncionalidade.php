@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CargoFuncionalidade extends BaseModel
 {
 
+    protected $table = 'cargo_funcionalidade';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $table = 'cargo_funcionalidade';
 
     protected $fillable = [
         'cargo_id',

@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AlunoResponsavel extends BaseModel
 {
 
+    protected $table = 'aluno_responsavel';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $table = 'aluno_responsavel';
 
     protected $fillable = [
         'aluno_id',
