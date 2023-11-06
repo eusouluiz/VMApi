@@ -19,6 +19,8 @@ class PrivateController extends AuthenticatedController
      */
     public function getUser(Request $request): UserResource
     {
+        $this->user->loadMissing('responsavel', 'funcionario');
+
         return new UserResource($this->user);
     }
 
