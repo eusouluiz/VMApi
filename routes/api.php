@@ -67,4 +67,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::Resource('aviso', 'App\Http\Controllers\Api\AvisoController');
     Route::Resource('mensagem', 'App\Http\Controllers\Api\MensagemController');
     Route::Resource('lembrete', 'App\Http\Controllers\Api\LembreteController');
+
+    Route::resource('aluno-responsavel', 'App\Http\Controllers\Api\AlunoResponsavelController');
+    Route::resource('cargo-funcionalidade', 'App\Http\Controllers\Api\CargoFuncionalidadeController');
+    Route::resource('canal-cargo', 'App\Http\Controllers\Api\CanalCargoController');
+    Route::resource('aviso-responsavel', 'App\Http\Controllers\Api\AvisoResponsavelController');
+    Route::resource('aviso-turma', 'App\Http\Controllers\Api\AvisoTurmaController');
+    Route::resource('canal-responsavel', 'App\Http\Controllers\Api\CanalResponsavelController');
 });
