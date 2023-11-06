@@ -20,13 +20,12 @@ class ResponsavelResource extends BaseResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array<string, bool|string>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
         return [
             'responsavel_id' => $this->resource->id,
-            'nome'           => $this->resource->nome,
             'user'           => new UserResource($this->whenLoaded('user')),
             'alunos'         => AlunoResource::collection($this->whenLoaded('alunos')),
         ];

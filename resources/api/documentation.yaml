@@ -1,23 +1,13 @@
 openapi: 3.0.0
 info:
   version: 0.0.1
-  title: Carbonaut API
-  description: Carbonaut API
-  termsOfService: https://carbonaut.io/
-  contact:
-    name: Carbonaut
-    email: hi@carbonaut.io
-    url: https://carbonaut.io/
-  license:
-    name: Proprietary
-    url: http://carbonaut.io/
+  title: VMApp API
+  description: VMApp API
 servers:
   - description: Select an environment
-  - url: http://api.localhost:8000
+  - url: http://localhost:8000/api
     description: Local environment
-  - url: https://api.carbonaut.dev
-    description: Development environment
-  - url: https://api.carbonaut.io
+  - url: https://vmapi.fly.dev/api
     description: Production environment
 tags:
   - name: auth
@@ -35,7 +25,7 @@ paths:
       tags:
         - auth
       summary: User Authentication
-      description: Authenticates a user using Email and Password.
+      description: Authenticates a user using CPF and Password.
       requestBody:
         required: true
         content:
@@ -51,27 +41,27 @@ paths:
           $ref: "#/components/responses/422"
         500:
           $ref: "#/components/responses/500"
-  /auth/register:
-    post:
-      tags:
-        - auth
-      summary: Creates a new user account
-      description: Creates a new user account
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UserPost"
-      responses:
-        201:
-          $ref: "#/components/responses/AuthPostRegister"
-        422:
-          $ref: "#/components/responses/422"
-        500:
-          $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
+  # /auth/register:
+  #   post:
+  #     tags:
+  #       - auth
+  #     summary: Creates a new user account
+  #     description: Creates a new user account
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/UserPost"
+  #     responses:
+  #       201:
+  #         $ref: "#/components/responses/AuthPostRegister"
+  #       422:
+  #         $ref: "#/components/responses/422"
+  #       500:
+  #         $ref: "#/components/responses/500"
+  #       503:
+  #         $ref: "#/components/responses/503"
   /auth/user:
     get:
       tags:
@@ -117,36 +107,36 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
-  /auth/user/devices/{uuid}:
-    put:
-      tags:
-        - auth
-      summary: Upsert a user device.
-      description: Creates a new User device or updates if a matching uuid already exists.
-      security:
-        - BearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/DeviceUuid"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/DevicePut"
-      responses:
-        200:
-          $ref: "#/components/responses/AuthPutUserDevice"
-        201:
-          $ref: "#/components/responses/AuthPutUserDevice"
-        401:
-          $ref: "#/components/responses/401"
-        403:
-          $ref: "#/components/responses/403"
-        422:
-          $ref: "#/components/responses/422"
-        500:
-          $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
+  # /auth/user/devices/{uuid}:
+  #   put:
+  #     tags:
+  #       - auth
+  #     summary: Upsert a user device.
+  #     description: Creates a new User device or updates if a matching uuid already exists.
+  #     security:
+  #       - BearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/DeviceUuid"
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/DevicePut"
+  #     responses:
+  #       200:
+  #         $ref: "#/components/responses/AuthPutUserDevice"
+  #       201:
+  #         $ref: "#/components/responses/AuthPutUserDevice"
+  #       401:
+  #         $ref: "#/components/responses/401"
+  #       403:
+  #         $ref: "#/components/responses/403"
+  #       422:
+  #         $ref: "#/components/responses/422"
+  #       500:
+  #         $ref: "#/components/responses/500"
+  #       503:
+  #         $ref: "#/components/responses/503"
   /auth/logout:
     post:
       tags:
@@ -212,95 +202,95 @@ paths:
           $ref: "#/components/responses/500"
         503:
           $ref: "#/components/responses/503"
-  /auth/email/verification:
-    get:
-      tags:
-        - auth
-      summary: Requests an email verification code
-      description: Requests an email verification code to be sent to the account's email
-      security:
-        - BearerAuth: []
-      responses:
-        200:
-          $ref: "#/components/responses/EmptyResponse"
-        401:
-          $ref: "#/components/responses/401"
-        403:
-          $ref: "#/components/responses/403"
-        422:
-          $ref: "#/components/responses/422"
-        500:
-          $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
-    post:
-      tags:
-        - auth
-      summary: Submits an email verification code
-      description: Confirm the email address by submitting the code that was sent to the user's email address
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AuthPostEmailVerification"
-      responses:
-        200:
-          $ref: "#/components/responses/EmptyResponse"
-        401:
-          $ref: "#/components/responses/401"
-        403:
-          $ref: "#/components/responses/403"
-        422:
-          $ref: "#/components/responses/422"
-        500:
-          $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
-  /auth/password/reset/request:
-    post:
-      tags:
-        - auth
-      summary: Requests a password reset email
-      description: Requests a password reset email
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AuthPostPasswordResetRequest"
-      responses:
-        200:
-          $ref: "#/components/responses/EmptyResponse"
-        422:
-          $ref: "#/components/responses/422"
-        500:
-          $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
-  /auth/password/reset/submit:
-    post:
-      tags:
-        - auth
-      summary: Resets the user password with the token provided by email
-      description: Resets the user password with the token provided by email
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AuthPostPasswordResetSubmit"
-      responses:
-        200:
-          $ref: "#/components/responses/EmptyResponse"
-        422:
-          $ref: "#/components/responses/422"
-        500:
-          $ref: "#/components/responses/500"
-        503:
-          $ref: "#/components/responses/503"
+  # /auth/email/verification:
+  #   get:
+  #     tags:
+  #       - auth
+  #     summary: Requests an email verification code
+  #     description: Requests an email verification code to be sent to the account's email
+  #     security:
+  #       - BearerAuth: []
+  #     responses:
+  #       200:
+  #         $ref: "#/components/responses/EmptyResponse"
+  #       401:
+  #         $ref: "#/components/responses/401"
+  #       403:
+  #         $ref: "#/components/responses/403"
+  #       422:
+  #         $ref: "#/components/responses/422"
+  #       500:
+  #         $ref: "#/components/responses/500"
+  #       503:
+  #         $ref: "#/components/responses/503"
+  #   post:
+  #     tags:
+  #       - auth
+  #     summary: Submits an email verification code
+  #     description: Confirm the email address by submitting the code that was sent to the user's email address
+  #     security:
+  #       - BearerAuth: []
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/AuthPostEmailVerification"
+  #     responses:
+  #       200:
+  #         $ref: "#/components/responses/EmptyResponse"
+  #       401:
+  #         $ref: "#/components/responses/401"
+  #       403:
+  #         $ref: "#/components/responses/403"
+  #       422:
+  #         $ref: "#/components/responses/422"
+  #       500:
+  #         $ref: "#/components/responses/500"
+  #       503:
+  #         $ref: "#/components/responses/503"
+  # /auth/password/reset/request:
+  #   post:
+  #     tags:
+  #       - auth
+  #     summary: Requests a password reset email
+  #     description: Requests a password reset email
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/AuthPostPasswordResetRequest"
+  #     responses:
+  #       200:
+  #         $ref: "#/components/responses/EmptyResponse"
+  #       422:
+  #         $ref: "#/components/responses/422"
+  #       500:
+  #         $ref: "#/components/responses/500"
+  #       503:
+  #         $ref: "#/components/responses/503"
+  # /auth/password/reset/submit:
+  #   post:
+  #     tags:
+  #       - auth
+  #     summary: Resets the user password with the token provided by email
+  #     description: Resets the user password with the token provided by email
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/AuthPostPasswordResetSubmit"
+  #     responses:
+  #       200:
+  #         $ref: "#/components/responses/EmptyResponse"
+  #       422:
+  #         $ref: "#/components/responses/422"
+  #       500:
+  #         $ref: "#/components/responses/500"
+  #       503:
+  #         $ref: "#/components/responses/503"
 
   /maintenance/up:
     post:
@@ -594,27 +584,55 @@ components:
         user_id:
           type: string
           format: uuid
-        name:
+          example: "2e0a79a7-69e1-4f29-965f-06e627206d26"
+        nome:
           type: string
-          example: "Carbonaut"
+          example: "VMApp User"
+        cpf:
+          type: string
+          example: "12345678901"
+        telefone:
+          type: string
+          example: "12345678901"
+        tipo:
+          type: string
+          example: "R"
         email:
           type: string
-          example: "hello@carbonaut.io"
+          example: "hello@vmapp.io"
         language:
           type: string
           example: "pt_BR"
         email_verified:
           type: boolean
           example: false
+        responsavel:
+          $ref: "#/components/schemas/Responsavel"
+        funcionario:
+          $ref: "#/components/schemas/Funcionario"
+    Responsavel:
+      type: object
+      properties:
+        responsavel_id:
+          type: string
+          format: uuid
+          example: "2e0a79a7-69e1-4f29-965f-06e627206d26"
+    Funcionario:
+      type: object
+      properties:
+        funcionario_id:
+          type: string
+          format: uuid
+          example: "2e0a79a7-69e1-4f29-965f-06e627206d26"
     UserPost:
       type: object
       properties:
         name:
           type: string
-          example: "Carbonaut 2"
+          example: "VMApp 2"
         email:
           type: string
-          example: "hello2@carbonaut.io"
+          example: "hello2@vmapp.io"
         language:
           type: string
           example: "pt_BR"
@@ -626,7 +644,7 @@ components:
       properties:
         name:
           type: string
-          example: "Carbonaut New Name"
+          example: "VMApp New Name"
         language:
           type: string
           example: "pt_BR"
@@ -641,7 +659,7 @@ components:
           format: uuid
         name:
           type: string
-          example: "Carbonaut's iPhone"
+          example: "VMApp's iPhone"
           nullable: true
         platform:
           type: string
@@ -679,7 +697,7 @@ components:
       properties:
         name:
           type: string
-          example: "Carbonaut's iPhone"
+          example: "VMapp's iPhone"
           nullable: true
         platform:
           type: string
@@ -721,9 +739,9 @@ components:
     AuthPostLogin:
       type: object
       properties:
-        email:
+        cpf:
           type: string
-          example: "hello@carbonaut.io"
+          example: "12345678901"
         password:
           type: string
           example: "password"

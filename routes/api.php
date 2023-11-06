@@ -50,8 +50,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Auth routes
     Route::get('/auth/user', [Auth\PrivateController::class, 'getUser']);
-    // Route::patch('/auth/user', [Auth\PrivateController::class, 'patchUser']);
-    Route::put('/auth/user/devices/{uuid}', [Auth\PrivateController::class, 'putUserDevice']);
+    Route::patch('/auth/user', [Auth\PrivateController::class, 'patchUser']);
+    // Route::put('/auth/user/devices/{uuid}', [Auth\PrivateController::class, 'putUserDevice']);
     Route::post('/auth/logout', [Auth\PrivateController::class, 'postLogout']);
     // Route::post('/auth/logout/all', [Auth\PrivateController::class, 'postLogoutAll']);
     // Route::post('/auth/password/change', [Auth\PrivateController::class, 'postPasswordChange']);
