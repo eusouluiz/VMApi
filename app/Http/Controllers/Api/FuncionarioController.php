@@ -41,7 +41,6 @@ class FuncionarioController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
             'user_id' => 'required',
             'cargo_id' => 'required',
         ]);
@@ -90,7 +89,6 @@ class FuncionarioController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
             'user_id' => 'required',
             'cargo_id' => 'required',
         ]);
