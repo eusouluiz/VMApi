@@ -41,7 +41,6 @@ class ResponsavelController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
             'user_id' => 'required',
         ]);
 
@@ -89,7 +88,6 @@ class ResponsavelController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
             'user_id' => 'required',
         ]);
 
