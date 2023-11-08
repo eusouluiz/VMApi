@@ -21,13 +21,14 @@ class CanalResponsavelController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     
+
     public function index()
     {
         $canalResponsavel = DB::table('canal_responsavel')
             ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
             ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
-            ->select('canal_responsavel.*', 'C.nome as canal_nome', 'R.nome as responsavel_nome')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
             ->get();
 
         if ($canalResponsavel->isEmpty()) {
@@ -89,13 +90,14 @@ class CanalResponsavelController extends Controller
 
     public function show($id)
     {
-       
+
         $canalResponsavel = DB::table('canal_responsavel')
-        ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
-        ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
-        ->select('canal_responsavel.*', 'C.nome as canal_nome', 'R.nome as responsavel_nome')
-        ->where('canal_responsavel.id', '=', $id)
-        ->first();
+            ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
+            ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
+            ->where('canal_responsavel.id', '=', $id)
+            ->first();
 
         if (!$canalResponsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
