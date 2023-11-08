@@ -25,7 +25,8 @@ class AvisoResponsavelController extends Controller
         $avisoResponsavel = DB::table('aviso_responsavel')
             ->join('avisos AS A', 'aviso_responsavel.aviso_id', '=', 'A.id')
             ->join('responsaveis AS R', 'aviso_responsavel.responsavel_id', '=', 'R.id')
-            ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'R.nome as responsavel_nome')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'U.nome as responsavel_nome')
             ->get();
 
         if ($avisoResponsavel->isEmpty()) {
@@ -90,7 +91,8 @@ class AvisoResponsavelController extends Controller
         $avisoResponsavel = DB::table('aviso_responsavel')
             ->join('avisos AS A', 'aviso_responsavel.aviso_id', '=', 'A.id')
             ->join('responsaveis AS R', 'aviso_responsavel.responsavel_id', '=', 'R.id')
-            ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'R.nome as responsavel_nome')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'U.nome as responsavel_nome') 
             ->where('aviso_responsavel.id', '=', $id)
             ->first();
 
