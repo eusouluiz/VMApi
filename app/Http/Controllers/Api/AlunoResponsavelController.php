@@ -20,12 +20,18 @@ class AlunoResponsavelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $alunoResponsavel = DB::table('aluno_responsavel')
             ->join('alunos AS A', 'aluno_responsavel.aluno_id', '=', 'A.id')
             ->join('responsaveis AS R', 'aluno_responsavel.responsavel_id', '=', 'R.id')
-            ->select('aluno_responsavel.*', 'A.nome as aluno_nome', 'R.nome as responsavel_nome')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select(
+                'aluno_responsavel.*',
+                'A.nome as aluno_nome',
+                'U.nome as responsavel_nome'
+            )
             ->get();
 
         if ($alunoResponsavel->isEmpty()) {
@@ -34,6 +40,7 @@ class AlunoResponsavelController extends Controller
 
         return response()->json($alunoResponsavel, 200);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -85,17 +92,22 @@ class AlunoResponsavelController extends Controller
         $alunoResponsavel = DB::table('aluno_responsavel')
             ->join('alunos AS A', 'aluno_responsavel.aluno_id', '=', 'A.id')
             ->join('responsaveis AS R', 'aluno_responsavel.responsavel_id', '=', 'R.id')
-            ->select('aluno_responsavel.*', 'A.nome as aluno_nome', 'R.nome as responsavel_nome')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select(
+                'aluno_responsavel.*',
+                'A.nome as aluno_nome',
+                'U.nome as responsavel_nome'
+            )
             ->where('aluno_responsavel.id', '=', $id)
             ->first();
-    
+
         if (!$alunoResponsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
-    
+
         return response()->json($alunoResponsavel, 200);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
