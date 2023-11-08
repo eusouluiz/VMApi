@@ -6,6 +6,7 @@ use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use DB;
 
 class FuncionarioController extends Controller
 {
@@ -21,13 +22,16 @@ class FuncionarioController extends Controller
      */
     public function index()
     {
-        $funcionario = Funcionario::all();
+        $funcionarios = DB::table('funcionarios AS F')
+            ->join('users AS U', 'F.user_id', '=', 'U.id')
+            ->select('F.*', 'U.nome as user_nome')
+            ->get();
 
-        if ($funcionario->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $funcionario], 404);
+        if ($funcionarios->isEmpty()) {
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $funcionarios], 404);
         }
 
-        return response()->json($funcionario, 200);
+        return response()->json($funcionarios, 200);
     }
 
     /**
@@ -62,7 +66,11 @@ class FuncionarioController extends Controller
      */
     public function show($id)
     {
-        $funcionario = Funcionario::find($id);
+        $funcionario = DB::table('funcionarios AS F')
+            ->join('users AS U', 'F.user_id', '=', 'U.id')
+            ->select('F.*', 'U.nome as user_nome')
+            ->where('F.id', '=', $id)
+            ->first();
 
         if (!$funcionario) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
@@ -70,7 +78,6 @@ class FuncionarioController extends Controller
 
         return response()->json($funcionario, 200);
     }
-
     /**
      * Update the specified resource in storage.
      *
