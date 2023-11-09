@@ -59,7 +59,7 @@ class MensagemController extends Controller
             'data_leitura' => 'nullable',
             'data_envio' => 'required',
             'user_id' => 'required',
-            'canal_id' => 'required',
+            'canal_responsavel_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -123,7 +123,7 @@ class MensagemController extends Controller
             'data_leitura' => 'nullable',
             'data_envio' => 'required',
             'user_id' => 'required',
-            'canal_id' => 'required',
+            'canal_responsavel_id' => 'required',
         ]);
 
         if ($validator->fails()) {

@@ -21,9 +21,9 @@ return new class() extends Migration {
             $table->foreignUuid('user_id')
                 ->index()
                 ->constrained('users');
-            $table->foreignUuid('canal_id')
+            $table->foreignUuid('canal_responsavel_id')
                 ->index()
-                ->constrained('canais');
+                ->constrained('canal_responsavel');
 
             $table->timestamps();
         });
