@@ -18,7 +18,6 @@ class Canal extends BaseModel
     protected $fillable = [
         'nome',
         'descricao',
-        'aluno_id',
     ];
 
     /*

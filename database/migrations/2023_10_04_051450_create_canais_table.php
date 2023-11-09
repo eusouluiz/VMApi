@@ -15,10 +15,6 @@ return new class() extends Migration {
             $table->string('nome');
             $table->string('descricao');
 
-            $table->foreignUuid('aluno_id')
-                ->index()
-                ->constrained('alunos');
-
             $table->timestamps();
         });
     }
