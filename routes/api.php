@@ -56,10 +56,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post('/auth/logout/all', [Auth\PrivateController::class, 'postLogoutAll']);
     // Route::post('/auth/password/change', [Auth\PrivateController::class, 'postPasswordChange']);
 
+    Route::Resource('user', 'App\Http\Controllers\Api\UserController');
     Route::Resource('aluno', 'App\Http\Controllers\Api\AlunoController');
     Route::Resource('turma', 'App\Http\Controllers\Api\TurmaController');
     Route::Resource('responsavel', 'App\Http\Controllers\Api\ResponsavelController');
-    Route::Resource('user', 'App\Http\Controllers\Api\UserController');
     Route::Resource('cargo', 'App\Http\Controllers\Api\CargoController');
     Route::Resource('funcionario', 'App\Http\Controllers\Api\FuncionarioController');
     Route::Resource('funcionalidade', 'App\Http\Controllers\Api\FuncionalidadeController');
