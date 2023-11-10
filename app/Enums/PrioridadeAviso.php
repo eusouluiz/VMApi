@@ -6,9 +6,9 @@ enum PrioridadeAviso: string
 {
     use EnumTrait;
 
-    case Baixa = 'baixa';
-    case Media = 'media';
-    case Alta = 'alta';
+    case Baixa = '3';
+    case Media = '2';
+    case Alta = '1';
 
     /**
      * Custom labels defined for each enum case.
@@ -20,9 +20,9 @@ enum PrioridadeAviso: string
     public static function getLabel(self $value): string
     {
         return match ($value) {
-            PrioridadeAviso::Baixa => 'Baixa',
-            PrioridadeAviso::Media => 'Média',
-            PrioridadeAviso::Alta  => 'Alta',
+            self::Baixa => 'Baixa',
+            self::Media => 'Média',
+            self::Alta  => 'Alta',
         };
     }
 }

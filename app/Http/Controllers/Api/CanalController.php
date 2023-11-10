@@ -43,7 +43,6 @@ class CanalController extends Controller
         $validator = Validator::make($data, [
             'nome' => 'required',
             'descricao' => 'required',
-            'aluno_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -92,7 +91,6 @@ class CanalController extends Controller
         $validator = Validator::make($data, [
             'nome' => 'required',
             'descricao' => 'required',
-            'aluno_id' => 'required',
         ]);
 
         if ($validator->fails()) {

@@ -10,6 +10,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 
 class UserController extends Controller
 {
@@ -45,13 +47,17 @@ class UserController extends Controller
     {
         $data = $request->all();
 
+        $tiposValidos = implode(', ', [TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value]);
+
         $validator = Validator::make($data, [
             'nome'     => 'required',
-            'cpf'      => 'required|unique:users',
-            'telefone' => 'nullable',
-            'tipo'     => 'required',
-            'email'    => 'unique:users|nullable',
-            'password' => 'required',
+            'cpf'      => 'required|max:11|unique:users',
+            'telefone' => 'nullable|max:12',
+            'tipo'     => ['required', Rule::in(TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value)],
+            'email'    => 'unique:users|nullable|email',
+            'password' => 'required|min:8',
+        ], [
+            'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: $tiposValidos.",
         ]);
 
         if ($validator->fails()) {
@@ -72,6 +78,7 @@ class UserController extends Controller
 
         return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new UserResource($user)], 200);
     }
+
 
     /**
      * Display the specified resource.
@@ -111,14 +118,19 @@ class UserController extends Controller
 
         $data = $request->all();
 
+        $tiposValidos = implode(', ', [TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value]);
+
         $validator = Validator::make($data, [
             'nome'     => 'required',
-            'cpf'      => 'required|unique:users,cpf,' . $id,
-            'telefone' => 'nullable',
-            'tipo'     => 'required',
-            'email'    => 'unique:users,email,' . $id . '|nullable',
-            'password' => 'required',
+            'cpf'      => 'required|max:11|unique:users,cpf,' . $user->id,
+            'telefone' => 'nullable|max:12',
+            'tipo'     => ['required', Rule::in([TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value])],
+            'email'    => 'unique:users,email,' . $user->id . '|nullable|email',
+            'password' => 'required|min:8',
+        ], [
+            'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: $tiposValidos.",
         ]);
+
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);

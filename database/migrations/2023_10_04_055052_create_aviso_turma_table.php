@@ -11,11 +11,13 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('aviso_turma', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('aviso_id')->constrained('avisos')->onDelete('cascade');
             $table->foreignUuid('turma_id')->constrained('turmas')->onDelete('cascade');
 
             $table->unique(['aviso_id', 'turma_id']);
-            $table->primary(['aviso_id', 'turma_id']);
+
+            $table->timestamps();
         });
     }
 

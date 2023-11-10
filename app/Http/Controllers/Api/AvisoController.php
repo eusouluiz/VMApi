@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
+use App\Enums\PrioridadeAviso;
 
 
 class AvisoController extends Controller
@@ -41,38 +43,37 @@ class AvisoController extends Controller
      */
     public function store(Request $request)
     {
-
-
         if ($request->data_publicacao !== null) {
             $request->merge(['data_publicacao' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_publicacao)->format('Y-m-d H:i:s')]);
         }
-
-
+    
         if ($request->data_expiracao !== null) {
             $request->merge(['data_expiracao' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_expiracao)->format('Y-m-d H:i:s')]);
         }
-
+    
         $data = $request->all();
-
+    
         $validator = Validator::make($data, [
             'texto' => 'nullable',
             'arquivo' => 'nullable',
-            'data_publicacao' => 'required',
-            'data_expiracao' => 'nullable',
-            'prioridade' => 'nullable',
-            'funcionario_id' => 'required',
-            'canal_id' => 'required',
+            'data_publicacao' => 'required|date',
+            'data_expiracao' => 'nullable|date',
+            'prioridade' => ['nullable', Rule::in([PrioridadeAviso::Baixa->value, PrioridadeAviso::Media->value, PrioridadeAviso::Alta->value])],
+            'funcionario_id' => 'required|uuid',
+            'canal_id' => 'required|uuid',
+        ], [
+            'prioridade.in' => 'O valor da prioridade é inválido. Valores válidos: 1 (Alta), 2 (Média), 3 (Baixa).',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
+    
         $aviso = Aviso::create($data);
-
+    
         return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $aviso], 200);
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -123,9 +124,11 @@ class AvisoController extends Controller
             'arquivo' => 'nullable',
             'data_publicacao' => 'required',
             'data_expiracao' => 'nullable',
-            'prioridade' => 'nullable',
+            'prioridade' => ['nullable', Rule::in([PrioridadeAviso::Alta->value, PrioridadeAviso::Media->value, PrioridadeAviso::Baixa->value])],
             'funcionario_id' => 'required',
             'canal_id' => 'required',
+        ], [
+            'prioridade.in' => 'O valor da prioridade é inválido. Valores válidos: 1 (Alta), 2 (Média), 3 (Baixa).',
         ]);
 
         if ($validator->fails()) {

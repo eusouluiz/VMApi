@@ -16,7 +16,9 @@ return new class() extends Migration {
             $table->string('arquivo')->nullable();
             $table->dateTime('data_publicacao');
             $table->dateTime('data_expiracao')->nullable();
-            $table->string('prioridade')->default('normal');
+            $table->char('prioridade', 1)
+                  ->default('2') 
+                  ->check("prioridade IN ('1', '2', '3')");
 
             $table->foreignUuid('funcionario_id')
                 ->index()

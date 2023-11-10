@@ -20,7 +20,6 @@ class Responsavel extends BaseModel
     * @var array<int, string>
     */
     protected $fillable = [
-        'nome',
         'user_id',
     ];
 

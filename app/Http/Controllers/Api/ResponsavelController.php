@@ -6,6 +6,7 @@ use App\Models\Responsavel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use DB;
 
 class ResponsavelController extends Controller
 {
@@ -19,16 +20,21 @@ class ResponsavelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $responsavel = Responsavel::all();
+        $responsaveis = DB::table('responsaveis AS R')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select('R.*', 'U.nome as user_nome')
+            ->get();
 
-        if ($responsavel->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $responsavel], 404);
+        if ($responsaveis->isEmpty()) {
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $responsaveis], 404);
         }
 
-        return response()->json($responsavel, 200);
+        return response()->json($responsaveis, 200);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +47,6 @@ class ResponsavelController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
             'user_id' => 'required',
         ]);
 
@@ -60,9 +65,14 @@ class ResponsavelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function show($id)
     {
-        $responsavel = Responsavel::find($id);
+        $responsavel = DB::table('responsaveis AS R')
+            ->join('users AS U', 'R.user_id', '=', 'U.id')
+            ->select('R.*', 'U.nome as user_nome')
+            ->where('R.id', '=', $id)
+            ->first();
 
         if (!$responsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
@@ -70,6 +80,7 @@ class ResponsavelController extends Controller
 
         return response()->json($responsavel, 200);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -89,7 +100,6 @@ class ResponsavelController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
             'user_id' => 'required',
         ]);
 

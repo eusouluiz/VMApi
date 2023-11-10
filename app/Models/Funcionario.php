@@ -13,7 +13,6 @@ class Funcionario extends BaseModel
     * @var array<int, string>
     */
     protected $fillable = [
-        'nome',
         'user_id',
         'cargo_id',
     ];
