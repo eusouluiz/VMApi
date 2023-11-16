@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Mensagem;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Validator;
+use App\Models\Mensagem;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Validator;
 
 class MensagemController extends Controller
 {
@@ -34,31 +34,29 @@ class MensagemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
         if ($request->data_leitura !== null) {
             $request->merge(['data_leitura' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_leitura)->format('Y-m-d H:i:s')]);
         }
-
 
         if ($request->data_envio !== null) {
             $request->merge(['data_envio' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_envio)->format('Y-m-d H:i:s')]);
         }
 
-
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'texto' => 'nullable',
-            'arquivo' => 'nullable',
-            'lida' => 'boolean',
-            'data_leitura' => 'nullable',
-            'data_envio' => 'required',
-            'user_id' => 'required',
+            'texto'                => 'nullable',
+            'arquivo'              => 'nullable',
+            'lida'                 => 'boolean',
+            'data_leitura'         => 'nullable',
+            'data_envio'           => 'required',
+            'user_id'              => 'required',
             'canal_responsavel_id' => 'required',
         ]);
 
@@ -74,7 +72,8 @@ class MensagemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http Response
      */
     public function show($id)
@@ -91,18 +90,16 @@ class MensagemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http Response
      */
     public function update(Request $request, $id)
     {
-
-
         if ($request->data_leitura !== null) {
             $request->merge(['data_leitura' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_leitura)->format('Y-m-d H:i:s')]);
         }
-
 
         if ($request->data_envio !== null) {
             $request->merge(['data_envio' => Carbon::createFromFormat('d/m/Y H:i:s', $request->data_envio)->format('Y-m-d H:i:s')]);
@@ -117,12 +114,12 @@ class MensagemController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'texto' => 'nullable',
-            'arquivo' => 'nullable',
-            'lida' => 'boolean',
-            'data_leitura' => 'nullable',
-            'data_envio' => 'required',
-            'user_id' => 'required',
+            'texto'                => 'nullable',
+            'arquivo'              => 'nullable',
+            'lida'                 => 'boolean',
+            'data_leitura'         => 'nullable',
+            'data_envio'           => 'required',
+            'user_id'              => 'required',
             'canal_responsavel_id' => 'required',
         ]);
 
@@ -138,7 +135,8 @@ class MensagemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http Response
      */
     public function destroy($id)

@@ -3,15 +3,15 @@
 namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
-use App\Models\Responsavel;
+use App\Models\CanalResponsavel;
 use Illuminate\Http\Request;
 
-class FuncionarioResource extends BaseResource
+class CanalResponsavelResource extends BaseResource
 {
     /**
      * Current resource.
      *
-     * @var Responsavel
+     * @var CanalResponsavel
      */
     public $resource;
 
@@ -25,9 +25,9 @@ class FuncionarioResource extends BaseResource
     public function toArray(Request $request): array
     {
         return [
-            'funcionario_id' => $this->resource->id,
-            'cargo'          => new CargoResource($this->whenLoaded('cargo')),
-            'user'           => new UserResource($this->whenLoaded('user')),
+            'canal_responsavel_id' => $this->resource->id,
+            'canal'                => new CanalResource($this->whenLoaded('canal')),
+            'responsavel'          => new ResponsavelResource($this->whenLoaded('responsavel')),
         ];
     }
 }

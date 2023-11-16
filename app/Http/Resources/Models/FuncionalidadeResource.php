@@ -3,15 +3,15 @@
 namespace App\Http\Resources\Models;
 
 use App\Http\Resources\BaseResource;
-use App\Models\Responsavel;
+use App\Models\Funcionalidade;
 use Illuminate\Http\Request;
 
-class FuncionarioResource extends BaseResource
+class FuncionalidadeResource extends BaseResource
 {
     /**
      * Current resource.
      *
-     * @var Responsavel
+     * @var Funcionalidade
      */
     public $resource;
 
@@ -25,9 +25,10 @@ class FuncionarioResource extends BaseResource
     public function toArray(Request $request): array
     {
         return [
-            'funcionario_id' => $this->resource->id,
-            'cargo'          => new CargoResource($this->whenLoaded('cargo')),
-            'user'           => new UserResource($this->whenLoaded('user')),
+            'funcionalidade_id' => $this->resource->id,
+            'nome'              => $this->resource->nome,
+            'descricao'         => $this->resource->descricao,
+            'cargos'            => CargoResource::collection($this->whenLoaded('cargos')),
         ];
     }
 }

@@ -93,7 +93,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        $user->loadMissing('responsavel', 'funcionario');
+        $user->loadMissing('responsavel', 'funcionario.cargo.funcionalidades');
 
         return response()->json(new UserResource($user), 200);
     }
