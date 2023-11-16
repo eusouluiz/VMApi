@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Responsavel;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Validator;
+use App\Http\Resources\Models\ResponsavelResource;
+use App\Models\Responsavel;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class ResponsavelController extends Controller
 {
@@ -18,9 +19,8 @@ class ResponsavelController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-
     public function index()
     {
         $responsaveis = DB::table('responsaveis AS R')
@@ -29,18 +29,18 @@ class ResponsavelController extends Controller
             ->get();
 
         if ($responsaveis->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $responsaveis], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => ResponsavelResource::collection($responsaveis)], 404);
         }
 
-        return response()->json($responsaveis, 200);
+        return response()->json(ResponsavelResource::collection($responsaveis), 200);
     }
-
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -56,16 +56,16 @@ class ResponsavelController extends Controller
 
         $responsavel = Responsavel::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $responsavel], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new ResponsavelResource($responsavel)], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-
     public function show($id)
     {
         $responsavel = DB::table('responsaveis AS R')
@@ -78,16 +78,16 @@ class ResponsavelController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($responsavel, 200);
+        return response()->json(new ResponsavelResource($responsavel), 200);
     }
-
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -109,14 +109,15 @@ class ResponsavelController extends Controller
 
         $responsavel->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $responsavel], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new ResponsavelResource($responsavel)], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Funcionario;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Validator;
+use App\Http\Resources\Models\FuncionarioResource;
+use App\Models\Funcionario;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class FuncionarioController extends Controller
 {
@@ -18,7 +19,7 @@ class FuncionarioController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -28,24 +29,25 @@ class FuncionarioController extends Controller
             ->get();
 
         if ($funcionarios->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $funcionarios], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => FuncionarioResource::collection($funcionarios)], 404);
         }
 
-        return response()->json($funcionarios, 200);
+        return response()->json(FuncionarioResource::collection($funcionarios), 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'user_id' => 'required',
+            'user_id'  => 'required',
             'cargo_id' => 'required',
         ]);
 
@@ -55,14 +57,15 @@ class FuncionarioController extends Controller
 
         $funcionario = Funcionario::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $funcionario], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new FuncionarioResource($funcionario)], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -76,14 +79,16 @@ class FuncionarioController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($funcionario, 200);
+        return response()->json(new FuncionarioResource($funcionario), 200);
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -96,7 +101,7 @@ class FuncionarioController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'user_id' => 'required',
+            'user_id'  => 'required',
             'cargo_id' => 'required',
         ]);
 
@@ -106,14 +111,15 @@ class FuncionarioController extends Controller
 
         $funcionario->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $funcionario], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new FuncionarioResource($funcionario)], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

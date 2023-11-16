@@ -16,7 +16,6 @@ class Lembrete extends BaseModel
         'texto',
         'data_lembrete',
         'aviso_id',
-     
     ];
 
     /*

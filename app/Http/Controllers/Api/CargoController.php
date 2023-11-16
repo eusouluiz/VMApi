@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Models\CargoResource;
 use App\Models\Cargo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Validator;
 
 class CargoController extends Controller
@@ -17,31 +18,32 @@ class CargoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $cargo = Cargo::all();
 
         if ($cargo->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $cargo], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CargoResource::collection($cargo)], 404);
         }
 
-        return response()->json($cargo, 200);
+        return response()->json(CargoResource::collection($cargo), 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
+            'nome'      => 'required',
             'descricao' => 'required',
         ]);
 
@@ -51,14 +53,15 @@ class CargoController extends Controller
 
         $cargo = Cargo::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $cargo], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new CargoResource($cargo)], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -68,15 +71,16 @@ class CargoController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($cargo, 200);
+        return response()->json(new CargoResource($cargo), 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -89,7 +93,7 @@ class CargoController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'nome' => 'required',
+            'nome'      => 'required',
             'descricao' => 'required',
         ]);
 
@@ -99,14 +103,15 @@ class CargoController extends Controller
 
         $cargo->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $cargo], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new CargoResource($cargo)], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

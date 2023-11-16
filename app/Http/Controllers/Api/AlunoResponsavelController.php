@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AlunoResponsavel;
-use Validator;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class AlunoResponsavelController extends Controller
 {
@@ -18,9 +18,8 @@ class AlunoResponsavelController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-
     public function index()
     {
         $alunoResponsavel = DB::table('aluno_responsavel')
@@ -41,19 +40,19 @@ class AlunoResponsavelController extends Controller
         return response()->json($alunoResponsavel, 200);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     // public function store(Request $request)
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'aluno_id' => 'required|exists:alunos,id',
-            'responsavel_id' => 'required|exists:responsaveis,id'
+            'aluno_id'       => 'required|exists:alunos,id',
+            'responsavel_id' => 'required|exists:responsaveis,id',
         ]);
 
         if ($validator->fails()) {
@@ -72,7 +71,7 @@ class AlunoResponsavelController extends Controller
         }
 
         $data = [
-            'aluno_id' => $alunoId,
+            'aluno_id'       => $alunoId,
             'responsavel_id' => $responsavelId,
         ];
 
@@ -84,8 +83,9 @@ class AlunoResponsavelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -108,13 +108,13 @@ class AlunoResponsavelController extends Controller
         return response()->json($alunoResponsavel, 200);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -125,8 +125,8 @@ class AlunoResponsavelController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'aluno_id' => 'required|exists:alunos,id',
-            'responsavel_id' => 'required|exists:responsaveis,id'
+            'aluno_id'       => 'required|exists:alunos,id',
+            'responsavel_id' => 'required|exists:responsaveis,id',
         ]);
 
         if ($validator->fails()) {
@@ -141,8 +141,9 @@ class AlunoResponsavelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

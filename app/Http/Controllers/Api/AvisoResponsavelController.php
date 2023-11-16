@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AvisoResponsavel;
-use Validator;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class AvisoResponsavelController extends Controller
 {
@@ -18,7 +18,7 @@ class AvisoResponsavelController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -39,15 +39,16 @@ class AvisoResponsavelController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'aviso_id' => 'required|exists:avisos,id',
-            'responsavel_id' => 'required|exists:responsaveis,id',
-            'ind_visualizacao' => 'boolean'
+            'aviso_id'         => 'required|exists:avisos,id',
+            'responsavel_id'   => 'required|exists:responsaveis,id',
+            'ind_visualizacao' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -70,8 +71,8 @@ class AvisoResponsavelController extends Controller
         $indVisualizacao = $request->input('ind_visualizacao', false);
 
         $data = [
-            'aviso_id' => $avisoId,
-            'responsavel_id' => $responsavelId,
+            'aviso_id'         => $avisoId,
+            'responsavel_id'   => $responsavelId,
             'ind_visualizacao' => $indVisualizacao,
         ];
 
@@ -83,8 +84,9 @@ class AvisoResponsavelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -92,7 +94,7 @@ class AvisoResponsavelController extends Controller
             ->join('avisos AS A', 'aviso_responsavel.aviso_id', '=', 'A.id')
             ->join('responsaveis AS R', 'aviso_responsavel.responsavel_id', '=', 'R.id')
             ->join('users AS U', 'R.user_id', '=', 'U.id')
-            ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'U.nome as responsavel_nome') 
+            ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'U.nome as responsavel_nome')
             ->where('aviso_responsavel.id', '=', $id)
             ->first();
 
@@ -106,9 +108,10 @@ class AvisoResponsavelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -119,9 +122,9 @@ class AvisoResponsavelController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'aviso_id' => 'required|exists:avisos,id',
-            'responsavel_id' => 'required|exists:responsaveis,id',
-            'ind_visualizacao' => 'boolean'
+            'aviso_id'         => 'required|exists:avisos,id',
+            'responsavel_id'   => 'required|exists:responsaveis,id',
+            'ind_visualizacao' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -138,8 +141,9 @@ class AvisoResponsavelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

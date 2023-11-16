@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Models\MensagemResource;
 use App\Models\Mensagem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,17 +19,17 @@ class MensagemController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $mensagem = Mensagem::all();
 
         if ($mensagem->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $mensagem], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => MensagemResource::collection($mensagem)], 404);
         }
 
-        return response()->json($mensagem, 200);
+        return response()->json(MensagemResource::collection($mensagem), 200);
     }
 
     /**
@@ -36,7 +37,7 @@ class MensagemController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -66,7 +67,7 @@ class MensagemController extends Controller
 
         $mensagem = Mensagem::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $mensagem], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new MensagemResource($mensagem)], 200);
     }
 
     /**
@@ -74,7 +75,7 @@ class MensagemController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -84,7 +85,7 @@ class MensagemController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($mensagem, 200);
+        return response()->json(new MensagemResource($mensagem), 200);
     }
 
     /**
@@ -93,7 +94,7 @@ class MensagemController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
      *
-     * @return \Illuminate\Http Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -129,7 +130,7 @@ class MensagemController extends Controller
 
         $mensagem->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $mensagem], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new MensagemResource($mensagem)], 200);
     }
 
     /**
@@ -137,7 +138,7 @@ class MensagemController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Models\AlunoResource;
 use App\Models\Aluno;
 use Illuminate\Http\Request;
 use Validator;
@@ -17,17 +18,17 @@ class AlunoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $aluno = Aluno::all();
 
         if ($aluno->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $aluno], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => AlunoResource::collection($aluno)], 404);
         }
 
-        return response()->json($aluno, 200);
+        return response()->json(AlunoResource::collection($aluno), 200);
     }
 
     /**
@@ -35,7 +36,7 @@ class AlunoController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -52,7 +53,7 @@ class AlunoController extends Controller
 
         $aluno = Aluno::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $aluno], 200);
+        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new AlunoResource($aluno)], 200);
     }
 
     /**
@@ -61,7 +62,7 @@ class AlunoController extends Controller
      * @param \App\Models\Aluno $aluno
      * @param mixed             $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -71,7 +72,7 @@ class AlunoController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($aluno, 200);
+        return response()->json(new AlunoResource($aluno), 200);
     }
 
     /**
@@ -81,7 +82,7 @@ class AlunoController extends Controller
      * @param \App\Models\Aluno        $aluno
      * @param mixed                    $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -104,7 +105,7 @@ class AlunoController extends Controller
 
         $aluno->update($data);
 
-        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => $aluno], 200);
+        return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new AlunoResource($aluno)], 200);
     }
 
     /**
@@ -113,7 +114,7 @@ class AlunoController extends Controller
      * @param \App\Models\Aluno $aluno
      * @param mixed             $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

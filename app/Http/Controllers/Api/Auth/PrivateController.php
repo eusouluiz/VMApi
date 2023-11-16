@@ -19,7 +19,7 @@ class PrivateController extends AuthenticatedController
      */
     public function getUser(Request $request): UserResource
     {
-        $this->user->loadMissing('responsavel', 'funcionario');
+        $this->user->loadMissing('responsavel', 'funcionario.cargo.funcionalidades');
 
         return new UserResource($this->user);
     }
