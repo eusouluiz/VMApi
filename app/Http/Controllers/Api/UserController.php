@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
 class UserController extends Controller
 {
     public function __construct()
@@ -57,7 +56,7 @@ class UserController extends Controller
             'email'    => 'unique:users|nullable|email',
             'password' => 'required|min:8',
         ], [
-            'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: $tiposValidos.",
+            'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: {$tiposValidos}.",
         ]);
 
         if ($validator->fails()) {
@@ -73,12 +72,11 @@ class UserController extends Controller
         }
 
         if ($user->tipo == TipoUser::Funcionario || $user->tipo == TipoUser::Ambos) {
-            $user->funcionario()->create($data);
+            $user->funcionario()->create();
         }
 
         return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new UserResource($user)], 200);
     }
-
 
     /**
      * Display the specified resource.
@@ -128,9 +126,8 @@ class UserController extends Controller
             'email'    => 'unique:users,email,' . $user->id . '|nullable|email',
             'password' => 'required|min:8',
         ], [
-            'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: $tiposValidos.",
+            'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: {$tiposValidos}.",
         ]);
-
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
