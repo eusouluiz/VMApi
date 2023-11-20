@@ -25,9 +25,12 @@ class AlunoResource extends BaseResource
     public function toArray(Request $request): array
     {
         return [
-            'aluno_id' => $this->resource->id,
-            'cgm'      => $this->resource->cgm,
-            'nome'     => $this->resource->nome,
+            'aluno_id'     => $this->resource->id,
+            'cgm'          => $this->resource->cgm,
+            'nome'         => $this->resource->nome,
+            'turma'        => new TurmaResource($this->whenLoaded('turma')),
+            'canais'       => CanalResource::collection($this->whenLoaded('canais')),
+            'responsaveis' => ResponsavelResource::collection($this->whenLoaded('responsaveis')),
         ];
     }
 }
