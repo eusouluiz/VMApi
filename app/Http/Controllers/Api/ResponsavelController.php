@@ -5,17 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\ResponsavelResource;
 use App\Models\Responsavel;
-use DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class ResponsavelController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,10 +17,7 @@ class ResponsavelController extends Controller
      */
     public function index()
     {
-        $responsaveis = DB::table('responsaveis AS R')
-            ->join('users AS U', 'R.user_id', '=', 'U.id')
-            ->select('R.*', 'U.nome as user_nome')
-            ->get();
+        $responsaveis = Responsavel::all()->load('user');
 
         if ($responsaveis->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => ResponsavelResource::collection($responsaveis)], 404);
@@ -62,21 +53,13 @@ class ResponsavelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Responsavel $responsavel
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Responsavel $responsavel)
     {
-        $responsavel = DB::table('responsaveis AS R')
-            ->join('users AS U', 'R.user_id', '=', 'U.id')
-            ->select('R.*', 'U.nome as user_nome')
-            ->where('R.id', '=', $id)
-            ->first();
-
-        if (!$responsavel) {
-            return response()->json(['error' => 'Registro não encontrado!'], 404);
-        }
+        $responsavel->loadMissing('user', 'alunos');
 
         return response()->json(new ResponsavelResource($responsavel), 200);
     }

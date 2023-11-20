@@ -25,16 +25,15 @@ class UserResource extends BaseResource
     public function toArray(Request $request): array
     {
         return [
-            'user_id'        => $this->resource->id,
-            'nome'           => $this->resource->nome,
-            'cpf'            => $this->resource->cpf,
-            'telefone'       => $this->resource->telefone,
-            'tipo'           => $this->resource->tipo,
-            'email'          => $this->resource->email,
-            'language'       => $this->resource->language,
-            'email_verified' => $this->resource->email_verified,
-            'responsavel'    => new ResponsavelResource($this->whenLoaded('responsavel')),
-            'funcionario'    => new FuncionarioResource($this->whenLoaded('funcionario')),
+            'user_id'     => $this->resource->id,
+            'nome'        => $this->resource->nome,
+            'cpf'         => $this->resource->cpf,
+            'telefone'    => $this->resource->telefone,
+            'tipo'        => $this->resource->tipo,
+            'email'       => $this->resource->email,
+            'language'    => $this->resource->language,
+            'responsavel' => new ResponsavelResource($this->whenLoaded('responsavel')),
+            'funcionario' => new FuncionarioResource($this->whenLoaded('funcionario')),
         ];
     }
 }

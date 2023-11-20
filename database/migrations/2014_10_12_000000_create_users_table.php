@@ -16,7 +16,7 @@ return new class() extends Migration {
             $table->string('cpf', 11)->unique();
             $table->string('telefone', 12)->nullable();
             $table->string('tipo');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

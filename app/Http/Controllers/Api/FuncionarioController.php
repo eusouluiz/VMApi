@@ -5,17 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\FuncionarioResource;
 use App\Models\Funcionario;
-use DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class FuncionarioController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,10 +18,7 @@ class FuncionarioController extends Controller
      */
     public function index()
     {
-        $funcionarios = DB::table('funcionarios AS F')
-            ->join('users AS U', 'F.user_id', '=', 'U.id')
-            ->select('F.*', 'U.nome as user_nome')
-            ->get();
+        $funcionarios = Funcionario::all()->load('user', 'cargo');
 
         if ($funcionarios->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => FuncionarioResource::collection($funcionarios)], 404);
@@ -63,21 +55,23 @@ class FuncionarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Funcionario $funcionario
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Funcionario $funcionario)
     {
-        $funcionario = DB::table('funcionarios AS F')
-            ->join('users AS U', 'F.user_id', '=', 'U.id')
-            ->select('F.*', 'U.nome as user_nome')
-            ->where('F.id', '=', $id)
-            ->first();
+        // $funcionario = DB::table('funcionarios AS F')
+        //     ->join('users AS U', 'F.user_id', '=', 'U.id')
+        //     ->select('F.*', 'U.nome as user_nome')
+        //     ->where('F.id', '=', $id)
+        //     ->first();
 
-        if (!$funcionario) {
-            return response()->json(['error' => 'Registro não encontrado!'], 404);
-        }
+        // if (!$funcionario) {
+        //     return response()->json(['error' => 'Registro não encontrado!'], 404);
+        // }
+
+        $funcionario->loadMissing('user', 'cargo');
 
         return response()->json(new FuncionarioResource($funcionario), 200);
     }

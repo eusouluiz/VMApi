@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\CanalResponsavel;
-use Validator;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class CanalResponsavelController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-
-
     public function index()
     {
         $canalResponsavel = DB::table('canal_responsavel')
@@ -38,12 +31,11 @@ class CanalResponsavelController extends Controller
         return response()->json($canalResponsavel, 200);
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     // public function store(Request $request)
@@ -51,8 +43,8 @@ class CanalResponsavelController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'canal_id' => 'required|exists:canais,id',
-            'responsavel_id' => 'required|exists:responsaveis,id'
+            'canal_id'       => 'required|exists:canais,id',
+            'responsavel_id' => 'required|exists:responsaveis,id',
         ]);
 
         if ($validator->fails()) {
@@ -71,7 +63,7 @@ class CanalResponsavelController extends Controller
         }
 
         $data = [
-            'canal_id' => $canalId,
+            'canal_id'       => $canalId,
             'responsavel_id' => $responsavelId,
         ];
 
@@ -80,17 +72,15 @@ class CanalResponsavelController extends Controller
         return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $canalResponsavel], 200);
     }
 
-
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function show($id)
     {
-
         $canalResponsavel = DB::table('canal_responsavel')
             ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
             ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
@@ -106,12 +96,12 @@ class CanalResponsavelController extends Controller
         return response()->json($canalResponsavel, 200);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
@@ -125,8 +115,8 @@ class CanalResponsavelController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'canal_id' => 'required|exists:canais,id',
-            'responsavel_id' => 'required|exists:responsaveis,id'
+            'canal_id'       => 'required|exists:canais,id',
+            'responsavel_id' => 'required|exists:responsaveis,id',
         ]);
 
         if ($validator->fails()) {
@@ -141,7 +131,8 @@ class CanalResponsavelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)

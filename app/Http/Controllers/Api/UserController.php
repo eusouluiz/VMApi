@@ -14,11 +14,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum', ['except' => ['index', 'show', 'store', 'update', 'destroy']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +48,7 @@ class UserController extends Controller
             'cpf'      => 'required|max:11|unique:users',
             'telefone' => 'nullable|max:12',
             'tipo'     => ['required', Rule::in(TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value)],
-            'email'    => 'unique:users|nullable|email',
+            'email'    => 'nullable|unique:users|email',
             'password' => 'required|min:8',
         ], [
             'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: {$tiposValidos}.",
@@ -123,8 +118,8 @@ class UserController extends Controller
             'cpf'      => 'required|max:11|unique:users,cpf,' . $user->id,
             'telefone' => 'nullable|max:12',
             'tipo'     => ['required', Rule::in([TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value])],
-            'email'    => 'unique:users,email,' . $user->id . '|nullable|email',
-            'password' => 'required|min:8',
+            'email'    => 'nullable|unique:users,email,' . $user->id . '|email',
+            'password' => 'nullable|min:8',
         ], [
             'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: {$tiposValidos}.",
         ]);
@@ -139,8 +134,13 @@ class UserController extends Controller
             'telefone' => $data['telefone'],
             'tipo'     => $data['tipo'],
             'email'    => $data['email'],
-            'password' => Hash::make($data['password']),
         ]);
+
+        if (isset($data['password'])) {
+            $user->update([
+                'password' => Hash::make($data['password']),
+            ]);
+        }
 
         return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new UserResource($user)], 200);
     }
