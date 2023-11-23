@@ -17,7 +17,7 @@ class CargoController extends Controller
      */
     public function index()
     {
-        $cargo = Cargo::all();
+        $cargo = Cargo::with('funcionarios', 'funcionalidades')->get();
 
         if ($cargo->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CargoResource::collection($cargo)], 404);
