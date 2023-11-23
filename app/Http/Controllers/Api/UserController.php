@@ -139,7 +139,7 @@ class UserController extends Controller
             'cpf'      => 'required|max:11|unique:users,cpf,' . $user->id,
             'telefone' => 'nullable|max:12',
             'tipo'     => ['required', Rule::in([TipoUser::Responsavel->value, TipoUser::Funcionario->value, TipoUser::Ambos->value])],
-            'email'    => 'nullable|unique:users,email,' . $user->id . '|email',
+            'email'    => 'nullable',
             'password' => 'nullable|min:8',
         ], [
             'tipo.in' => "O tipo selecionado é inválido. Os tipos válidos são: {$tiposValidos}.",
