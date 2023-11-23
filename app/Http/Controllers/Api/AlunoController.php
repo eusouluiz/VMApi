@@ -17,7 +17,7 @@ class AlunoController extends Controller
      */
     public function index()
     {
-        $aluno = Aluno::all();
+        $aluno = Aluno::with('turma')->get();
 
         if ($aluno->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => AlunoResource::collection($aluno)], 404);
