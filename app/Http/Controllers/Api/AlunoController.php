@@ -61,7 +61,7 @@ class AlunoController extends Controller
      */
     public function show($id)
     {
-        $aluno = Aluno::with('turma', 'responsaveis')->find($id);
+        $aluno = Aluno::with('turma', 'responsaveis.user')->find($id);
 
         if (!$aluno) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
