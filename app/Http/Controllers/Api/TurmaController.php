@@ -60,7 +60,9 @@ class TurmaController extends Controller
      */
     public function show($id)
     {
-        $turma = Turma::find($id);
+        // $turma = Turma::find($id);
+
+        $turma = Turma::with('alunos')->find($id);
 
         if (!$turma) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
