@@ -40,7 +40,7 @@ class FuncionarioController extends Controller
 
         $validator = Validator::make($data, [
             'user_id'  => 'required',
-            'cargo_id' => 'required',
+           
         ]);
 
         if ($validator->fails()) {
@@ -96,7 +96,7 @@ class FuncionarioController extends Controller
 
         $validator = Validator::make($data, [
             'user_id'  => 'required',
-            'cargo_id' => 'required',
+         
         ]);
 
         if ($validator->fails()) {

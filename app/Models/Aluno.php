@@ -16,6 +16,7 @@ class Aluno extends BaseModel
     protected $fillable = [
         'cgm',
         'nome',
+        'turma_id',
     ];
 
     /**
