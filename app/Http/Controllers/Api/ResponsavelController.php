@@ -59,7 +59,7 @@ class ResponsavelController extends Controller
      */
     public function show(Responsavel $responsavel)
     {
-        $responsavel->loadMissing('user', 'alunos');
+        $responsavel->loadMissing(['user', 'alunos.turma']);
 
         return response()->json(new ResponsavelResource($responsavel), 200);
     }
