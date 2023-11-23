@@ -28,6 +28,7 @@ class AlunoResource extends BaseResource
             'aluno_id'     => $this->resource->id,
             'cgm'          => $this->resource->cgm,
             'nome'         => $this->resource->nome,
+            'turma_id'     => $this->resource->turma_id,
             'turma'        => new TurmaResource($this->whenLoaded('turma')),
             'canais'       => CanalResource::collection($this->whenLoaded('canais')),
             'responsaveis' => ResponsavelResource::collection($this->whenLoaded('responsaveis')),
