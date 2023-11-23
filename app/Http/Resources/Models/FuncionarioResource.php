@@ -26,6 +26,8 @@ class FuncionarioResource extends BaseResource
     {
         return [
             'funcionario_id' => $this->resource->id,
+            'user_id' => $this->resource->user_id,
+            'cargo_id' => $this->resource->cargo_id,
             'cargo'          => new CargoResource($this->whenLoaded('cargo')),
             'user'           => new UserResource($this->whenLoaded('user')),
         ];
