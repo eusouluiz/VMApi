@@ -140,9 +140,11 @@ class AlunoResponsavelController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($alunoId, $responsavelId)
     {
-        $alunoResponsavel = AlunoResponsavel::find($id);
+        $alunoResponsavel = AlunoResponsavel::where('aluno_id', $alunoId)
+            ->where('responsavel_id', $responsavelId)
+            ->first();
 
         if (!$alunoResponsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
