@@ -62,16 +62,37 @@ class UserController extends Controller
         $user->password = Hash::make($data['password']);
         $user->save();
 
+        $responsavelId = null;
+        $funcionarioId = null;
+
         if ($user->tipo == TipoUser::Responsavel || $user->tipo == TipoUser::Ambos) {
-            $user->responsavel()->create();
+            $responsavel = $user->responsavel()->create();
+            $responsavelId = $responsavel->id;
         }
 
         if ($user->tipo == TipoUser::Funcionario || $user->tipo == TipoUser::Ambos) {
-            $user->funcionario()->create();
+            $funcionario = $user->funcionario()->create();
+            $funcionarioId = $funcionario->id;
         }
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new UserResource($user)], 200);
+        $responseData = [
+            'msg' => 'Registro cadastrado com sucesso',
+            'data' => [
+                'user_id' => $user->id,
+                'nome' => $user->nome,
+                'cpf' => $user->cpf,
+                'telefone' => $user->telefone,
+                'tipo' => $user->tipo,
+                'email' => $user->email,
+                'language' => $user->language,
+                'responsavel_id' => $responsavelId,
+                'funcionario_id' => $funcionarioId,
+            ],
+        ];
+
+        return response()->json($responseData, 200);
     }
+
 
     /**
      * Display the specified resource.
