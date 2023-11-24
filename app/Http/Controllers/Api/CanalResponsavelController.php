@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CanalResponsavel;
-use DB;
+use App\Http\Resources\Models\CanalResponsavelResource;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -15,21 +15,32 @@ class CanalResponsavelController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    // public function index()
+    // {
+    //     $canalResponsavel = DB::table('canal_responsavel')
+    //         ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
+    //         ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
+    //         ->join('users AS U', 'R.user_id', '=', 'U.id')
+    //         ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
+    //         ->get();
+
+    //     if ($canalResponsavel->isEmpty()) {
+    //         return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $canalResponsavel], 404);
+    //     }
+
+    //     return response()->json($canalResponsavel, 200);
+    // }
     public function index()
     {
-        $canalResponsavel = DB::table('canal_responsavel')
-            ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
-            ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
-            ->join('users AS U', 'R.user_id', '=', 'U.id')
-            ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
-            ->get();
+        $canalResponsavel = CanalResponsavel::with('canal', 'responsavel.user')->get();
 
         if ($canalResponsavel->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $canalResponsavel], 404);
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CanalResponsavelResource::collection($canalResponsavel)], 404);
         }
 
-        return response()->json($canalResponsavel, 200);
+        return response()->json(CanalResponsavelResource::collection($canalResponsavel), 200);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -79,22 +90,34 @@ class CanalResponsavelController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    // public function show($id)
+    // {
+    //     $canalResponsavel = DB::table('canal_responsavel')
+    //         ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
+    //         ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
+    //         ->join('users AS U', 'R.user_id', '=', 'U.id')
+    //         ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
+    //         ->where('canal_responsavel.id', '=', $id)
+    //         ->first();
+
+    //     if (!$canalResponsavel) {
+    //         return response()->json(['error' => 'Registro não encontrado!'], 404);
+    //     }
+
+    //     return response()->json($canalResponsavel, 200);
+    // }
+
     public function show($id)
     {
-        $canalResponsavel = DB::table('canal_responsavel')
-            ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
-            ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
-            ->join('users AS U', 'R.user_id', '=', 'U.id')
-            ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
-            ->where('canal_responsavel.id', '=', $id)
-            ->first();
+        $canalResponsavel = CanalResponsavel::with('canal', 'responsavel.user')->find($id);
 
         if (!$canalResponsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
-        return response()->json($canalResponsavel, 200);
+        return response()->json(new CanalResponsavelResource($canalResponsavel), 200);
     }
+
 
     /**
      * Update the specified resource in storage.
