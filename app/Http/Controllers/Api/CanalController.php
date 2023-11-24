@@ -17,7 +17,7 @@ class CanalController extends Controller
      */
     public function index()
     {
-        $canal = Canal::all();
+        $canal = Canal::with('cargos')->get();
 
         if ($canal->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CanalResource::collection($canal)], 404);
