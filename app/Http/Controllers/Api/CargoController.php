@@ -17,7 +17,7 @@ class CargoController extends Controller
      */
     public function index()
     {
-        $cargo = Cargo::with('funcionarios', 'funcionalidades')->get();
+        $cargo = Cargo::all();
 
         if ($cargo->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CargoResource::collection($cargo)], 404);
@@ -60,7 +60,8 @@ class CargoController extends Controller
      */
     public function show($id)
     {
-        $cargo = Cargo::find($id);
+
+        $cargo = Cargo::with('funcionarios', 'funcionalidades')->find($id);
 
         if (!$cargo) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
