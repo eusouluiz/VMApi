@@ -60,7 +60,8 @@ class CanalController extends Controller
      */
     public function show($id)
     {
-        $canal = Canal::find($id);
+        
+        $canal = Canal::with('cargos')->find($id);
 
         if (!$canal) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
