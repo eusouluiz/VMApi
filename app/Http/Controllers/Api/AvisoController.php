@@ -20,14 +20,15 @@ class AvisoController extends Controller
      */
     public function index()
     {
-        $aviso = Aviso::all();
-
-        if ($aviso->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => AvisoResource::collection($aviso)], 404);
+        $avisos = Aviso::all();
+    
+        if ($avisos->isEmpty()) {
+            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => []], 404);
         }
-
-        return response()->json(new AvisoResource($aviso), 200);
+    
+        return response()->json(['data' => AvisoResource::collection($avisos)], 200);
     }
+    
 
     /**
      * Store a newly created resource in storage.
