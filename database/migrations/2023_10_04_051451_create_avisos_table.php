@@ -12,6 +12,7 @@ return new class() extends Migration {
     {
         Schema::create('avisos', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->text('titulo');
             $table->text('texto')->nullable();
             $table->string('arquivo')->nullable();
             $table->dateTime('data_publicacao');

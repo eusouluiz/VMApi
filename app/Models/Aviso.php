@@ -15,6 +15,7 @@ class Aviso extends BaseModel
     * @var array<int, string>
     */
     protected $fillable = [
+        'titulo',
         'texto',
         'arquivo',
         'data_publicacao',

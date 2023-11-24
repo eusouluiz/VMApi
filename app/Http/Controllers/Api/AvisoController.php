@@ -49,6 +49,7 @@ class AvisoController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
+            'titulo' => 'required|string|max:255',
             'texto'           => 'nullable',
             'arquivo'         => 'nullable',
             'data_publicacao' => 'required|date',
@@ -90,7 +91,7 @@ class AvisoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $requesttitulo
      * @param int                      $id
      *
      * @return \Illuminate\Http JsonResponse
@@ -114,6 +115,7 @@ class AvisoController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
+            'titulo' => 'required|string|max:255',
             'texto'           => 'nullable',
             'arquivo'         => 'nullable',
             'data_publicacao' => 'required',

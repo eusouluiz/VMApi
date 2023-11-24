@@ -26,6 +26,7 @@ class AvisoResource extends BaseResource
     {
         return [
             'aviso_id'        => $this->resource->id,
+            'titulo'          => $this->resource->titulo,
             'texto'           => $this->resource->texto,
             'arquivo'         => $this->resource->arquivo,
             'data_publicacao' => $this->resource->data_publicacao,
