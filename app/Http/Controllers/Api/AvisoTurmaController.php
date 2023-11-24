@@ -129,9 +129,11 @@ class AvisoTurmaController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($avisoId, $turmaId)
     {
-        $avisoTurma = AvisoTurma::find($id);
+        $avisoTurma = AvisoTurma::where('aviso_id', $avisoId)
+            ->where('turma_id', $turmaId)
+            ->first();
 
         if (!$avisoTurma) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);

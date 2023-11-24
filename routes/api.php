@@ -60,6 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('canal-cargo', 'App\Http\Controllers\Api\CanalCargoController');
     Route::delete('canal-cargo/{canalId}/{cargoId}', 'App\Http\Controllers\Api\CanalCargoController@destroy');
     Route::resource('aviso-responsavel', 'App\Http\Controllers\Api\AvisoResponsavelController');
+    Route::delete('aviso-turma/{avisoId}/{turmaId}', 'App\Http\Controllers\Api\AvisoTurmaController@destroy');
     Route::resource('aviso-turma', 'App\Http\Controllers\Api\AvisoTurmaController');
     Route::resource('canal-responsavel', 'App\Http\Controllers\Api\CanalResponsavelController');
 });
