@@ -129,9 +129,11 @@ class CanalCargoController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($canalId, $cargoId)
     {
-        $canalCargo = CanalCargo::find($id);
+        $canalCargo = CanalCargo::where('canal_id', $canalId)
+            ->where('cargo_id', $cargoId)
+            ->first();
 
         if (!$canalCargo) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);

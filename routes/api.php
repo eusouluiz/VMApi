@@ -58,6 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('cargo-funcionalidade', 'App\Http\Controllers\Api\CargoFuncionalidadeController');
     Route::delete('cargo-funcionalidade/{cargoId}/{funcionalidadeId}', 'App\Http\Controllers\Api\CargoFuncionalidadeController@destroy');
     Route::resource('canal-cargo', 'App\Http\Controllers\Api\CanalCargoController');
+    Route::delete('canal-cargo/{canalId}/{cargoId}', 'App\Http\Controllers\Api\CanalCargoController@destroy');
     Route::resource('aviso-responsavel', 'App\Http\Controllers\Api\AvisoResponsavelController');
     Route::resource('aviso-turma', 'App\Http\Controllers\Api\AvisoTurmaController');
     Route::resource('canal-responsavel', 'App\Http\Controllers\Api\CanalResponsavelController');
