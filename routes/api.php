@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::Resource('funcionario', 'App\Http\Controllers\Api\FuncionarioController')->missing(function () {
         return response()->json(['message' => 'Registro não encontrado!'], 404);
     });
-    Route::Resource('funcionalidade', 'App\Http\Controllers\Api\FuncionalidadeControler');
+    Route::resource('funcionalidade', 'App\Http\Controllers\Api\FuncionalidadeController');
     Route::Resource('canal', 'App\Http\Controllers\Api\CanalController');
     Route::Resource('aviso', 'App\Http\Controllers\Api\AvisoController');
     Route::Resource('mensagem', 'App\Http\Controllers\Api\MensagemController');
@@ -56,6 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('aluno-responsavel', 'App\Http\Controllers\Api\AlunoResponsavelController');
     Route::delete('aluno-responsavel/{alunoId}/{responsavelId}', 'App\Http\Controllers\Api\AlunoResponsavelController@destroy');
     Route::resource('cargo-funcionalidade', 'App\Http\Controllers\Api\CargoFuncionalidadeController');
+    Route::delete('cargo-funcionalidade/{cargoId}/{funcionalidadeId}', 'App\Http\Controllers\Api\CargoFuncionalidadeController@destroy');
     Route::resource('canal-cargo', 'App\Http\Controllers\Api\CanalCargoController');
     Route::resource('aviso-responsavel', 'App\Http\Controllers\Api\AvisoResponsavelController');
     Route::resource('aviso-turma', 'App\Http\Controllers\Api\AvisoTurmaController');

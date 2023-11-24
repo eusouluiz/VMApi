@@ -126,9 +126,11 @@ class CargoFuncionalidadeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($cargoId, $funcionalidadeId)
     {
-        $cargoFuncionalidade = CargoFuncionalidade::find($id);
+        $cargoFuncionalidade = CargoFuncionalidade::where('cargo_id', $cargoId)
+            ->where('funcionalidade_id', $funcionalidadeId)
+            ->first();
 
         if (!$cargoFuncionalidade) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
