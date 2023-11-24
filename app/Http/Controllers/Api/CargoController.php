@@ -61,7 +61,7 @@ class CargoController extends Controller
     public function show($id)
     {
 
-        $cargo = Cargo::with('funcionarios', 'funcionalidades')->find($id);
+        $cargo = Cargo::with('funcionarios.user', 'funcionalidades')->find($id);
 
         if (!$cargo) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
