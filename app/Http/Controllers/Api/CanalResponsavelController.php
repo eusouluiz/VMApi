@@ -67,11 +67,13 @@ class CanalResponsavelController extends Controller
         $responsavelId = $request->input('responsavel_id');
 
         // Verifica se já existe um registro com a mesma combinação de canal_id e responsavel_id
-        $existeRegistro = CanalResponsavel::where('canal_id', $canalId)->where('responsavel_id', $responsavelId)->first();
+        $existeRegistro = CanalResponsavel::with('canal', 'responsavel')->where('canal_id', $canalId)->where('responsavel_id', $responsavelId)->first();
 
-        // Caso exista, ele retorna o data com as informações do cadastro
         if ($existeRegistro) {
-            return response()->json(['msg' => 'Essa combinação de canal e responsável já existe.', 'data' => $existeRegistro], 400);
+            return response()->json([
+                'msg' => 'Essa combinação de canal e responsável já existe.',
+                'data' => new CanalResponsavelResource($existeRegistro)
+            ], 400);
         }
 
         $data = [
@@ -81,8 +83,16 @@ class CanalResponsavelController extends Controller
 
         $canalResponsavel = CanalResponsavel::create($data);
 
-        return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => $canalResponsavel], 200);
+        // Carregar os relacionamentos necessários
+        $canalResponsavel->load('canal', 'responsavel.user');
+
+        // Usar o resource para formatar a resposta
+        return response()->json([
+            'msg' => 'Registro cadastrado com sucesso',
+            'data' => new CanalResponsavelResource($canalResponsavel)
+        ], 200);
     }
+
 
     /**
      * Display the specified resource.
