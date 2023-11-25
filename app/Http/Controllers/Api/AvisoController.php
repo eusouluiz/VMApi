@@ -20,7 +20,9 @@ class AvisoController extends Controller
      */
     public function index()
     {
-        $avisos = Aviso::all();
+
+        $avisos = Aviso::with('funcionario')->get();
+
     
         if ($avisos->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => []], 404);

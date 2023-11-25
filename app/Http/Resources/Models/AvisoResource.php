@@ -35,6 +35,8 @@ class AvisoResource extends BaseResource
             'canal_id'      => $this->resource->canal_id,
             'funcionario'     => new FuncionarioResource($this->whenLoaded('funcionario')),
             'canal'           => new CanalResource($this->whenLoaded('canal')),
+            'responsaveis' => ResponsavelResource::collection($this->whenLoaded('responsaveis')),
+        
         ];
     }
 }
