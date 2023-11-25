@@ -21,7 +21,7 @@ class AvisoController extends Controller
     public function index()
     {
 
-        $avisos = Aviso::with('funcionario')->get();
+        $avisos = Aviso::with('funcionario', 'turmas')->get();
 
     
         if ($avisos->isEmpty()) {
