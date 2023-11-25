@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\CanalResource;
+use App\Models\CanalResponsavel;
+use App\Models\Mensagem;
 use App\Models\Canal;
 use App\Models\Aviso;
 use Illuminate\Http\Request;
@@ -118,6 +120,13 @@ class CanalController extends Controller
         if (!$canal) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
+
+        // deletar mensagens vinculadas
+        Mensagem::whereHas('canalResponsavel', function ($query) use ($id) {
+            $query->where('canal_id', $id);
+        })->delete();
+
+        CanalResponsavel::where('canal_id', $id)->delete();
 
         Aviso::where('canal_id', $id)->delete();
 
