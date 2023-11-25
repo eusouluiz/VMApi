@@ -31,6 +31,7 @@ class MensagemResource extends BaseResource
             'lida'              => $this->resource->lida,
             'data_leitura'      => $this->resource->data_leitura,
             'data_envio'        => $this->resource->data_envio,
+            'canal_responsavel_id' => $this->resource->canal_responsavel_id,
             'user'              => new UserResource($this->whenLoaded('user')),
             'canal_responsavel' => new CanalResponsavelResource($this->whenLoaded('canal_responsavel')),
         ];
