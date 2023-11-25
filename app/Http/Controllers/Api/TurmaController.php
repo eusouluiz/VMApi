@@ -118,6 +118,9 @@ class TurmaController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
+        // Atualizar alunos para definir turma_id como null
+        $turma->alunos()->update(['turma_id' => null]);
+
         $turma->delete();
 
         return response()->json(['msg' => 'Registro removido com sucesso!'], 200);
