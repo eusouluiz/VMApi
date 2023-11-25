@@ -19,7 +19,7 @@ class ResponsavelController extends Controller
      */
     public function index()
     {
-        $responsaveis = Responsavel::all()->load('user');
+        $responsaveis = Responsavel::all()->load('user', 'alunos');
 
         if ($responsaveis->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => ResponsavelResource::collection($responsaveis)], 404);
