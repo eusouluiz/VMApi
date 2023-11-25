@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\ResponsavelResource;
+use App\Models\CanalResponsavel;
 use App\Models\Responsavel;
+use App\Models\Mensagem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -105,13 +107,21 @@ class ResponsavelController extends Controller
     public function destroy($id)
     {
         $responsavel = Responsavel::find($id);
-
+    
         if (!$responsavel) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
-
+    
+        // deletar mensagens vinculadas
+        Mensagem::whereHas('canalResponsavel', function($query) use ($id) {
+            $query->where('responsavel_id', $id);
+        })->delete();
+    
+        CanalResponsavel::where('responsavel_id', $id)->delete();
+    
         $responsavel->delete();
-
+    
         return response()->json(['msg' => 'Registro removido com sucesso!'], 200);
     }
+    
 }

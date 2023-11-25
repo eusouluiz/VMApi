@@ -57,4 +57,16 @@ class Mensagem extends BaseModel
     {
         return $this->belongsTo(Canal::class);
     }
+
+    /*
+    * Get the canal for the mensagem.
+    *
+    * @return BelongsTo<Canal>
+    */
+    public function canalResponsavel(): BelongsTo
+    {
+        return $this->belongsTo(CanalResponsavel::class);
+    }
+    
+
 }
