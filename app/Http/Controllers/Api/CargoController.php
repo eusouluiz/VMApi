@@ -117,6 +117,8 @@ class CargoController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
 
+        $cargo->funcionarios()->update(['cargo_id' => null]);
+        
         $cargo->delete();
 
         return response()->json(['msg' => 'Registro removido com sucesso!'], 200);
