@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\CanalResource;
 use App\Models\Canal;
+use App\Models\Aviso;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -60,7 +61,7 @@ class CanalController extends Controller
      */
     public function show($id)
     {
-        
+
         $canal = Canal::with('cargos')->find($id);
 
         if (!$canal) {
@@ -109,6 +110,7 @@ class CanalController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function destroy($id)
     {
         $canal = Canal::find($id);
@@ -116,6 +118,8 @@ class CanalController extends Controller
         if (!$canal) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
+
+        Aviso::where('canal_id', $id)->delete();
 
         $canal->delete();
 
