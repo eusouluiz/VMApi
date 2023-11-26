@@ -7,7 +7,7 @@ use App\Http\Resources\Models\LembreteResource;
 use App\Models\Lembrete;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class LembreteController extends Controller
 {

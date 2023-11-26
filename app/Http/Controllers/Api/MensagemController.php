@@ -7,7 +7,7 @@ use App\Http\Resources\Models\MensagemResource;
 use App\Models\Mensagem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class MensagemController extends Controller
 {

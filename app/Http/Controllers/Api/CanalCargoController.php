@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CanalCargo;
 use DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class CanalCargoController extends Controller
 {
@@ -125,7 +125,9 @@ class CanalCargoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $canalId
+     * @param mixed $cargoId
      *
      * @return \Illuminate\Http\JsonResponse
      */

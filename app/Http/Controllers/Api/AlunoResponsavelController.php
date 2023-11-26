@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AlunoResponsavel;
 use DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class AlunoResponsavelController extends Controller
 {

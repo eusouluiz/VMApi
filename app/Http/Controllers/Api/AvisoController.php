@@ -8,8 +8,8 @@ use App\Http\Resources\Models\AvisoResource;
 use App\Models\Aviso;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Validator;
 
 class AvisoController extends Controller
 {
@@ -20,17 +20,14 @@ class AvisoController extends Controller
      */
     public function index()
     {
+        $avisos = Aviso::with('funcionario', 'turmas', 'lembrete')->get();
 
-        $avisos = Aviso::with('funcionario', 'turmas')->get();
-
-    
         if ($avisos->isEmpty()) {
             return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => []], 404);
         }
-    
+
         return response()->json(['data' => AvisoResource::collection($avisos)], 200);
     }
-    
 
     /**
      * Store a newly created resource in storage.
@@ -52,23 +49,41 @@ class AvisoController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'titulo' => 'required|string|max:255',
-            'texto'           => 'nullable',
-            'arquivo'         => 'nullable',
-            'data_publicacao' => 'required|date',
-            'data_expiracao'  => 'nullable|date',
-            'prioridade'      => ['nullable', Rule::in([PrioridadeAviso::Baixa->value, PrioridadeAviso::Media->value, PrioridadeAviso::Alta->value])],
-            'funcionario_id'  => 'required|uuid',
-            'canal_id'        => 'required|uuid',
+            'titulo'                 => 'required|string|max:255',
+            'texto'                  => 'nullable',
+            'arquivo'                => 'nullable',
+            'data_publicacao'        => 'required|date',
+            'data_expiracao'         => 'nullable|date',
+            'prioridade'             => ['nullable', Rule::in([PrioridadeAviso::Baixa->value, PrioridadeAviso::Media->value, PrioridadeAviso::Alta->value])],
+            'funcionario_id'         => 'required|uuid',
+            'canal_id'               => 'required|uuid',
+            'lembrete.data_lembrete' => 'nullable',
         ], [
             'prioridade.in' => 'O valor da prioridade é inválido. Valores válidos: 1 (Alta), 2 (Média), 3 (Baixa).',
         ]);
 
+        // validate that if 'lembrete.data.data_lembrete' is set, then 'lembrete.data.data_lembrete' must be a valid date
+        $validator->sometimes('lembrete.data_lembrete', 'date', function ($input) {
+            return isset($input->lembrete['data_lembrete']);
+        });
+
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json([$validator->errors(), $data], 400);
         }
 
-        $aviso = Aviso::create($data);
+        if (isset($data['lembrete']['data_lembrete'])) {
+            $lembrete = $data['lembrete'];
+            unset($data['lembrete']);
+
+            $aviso = Aviso::create($data);
+            $aviso->lembrete()->create($lembrete);
+        } else {
+            unset($data['lembrete']);
+
+            $aviso = Aviso::create($data);
+        }
+
+        $aviso->load('lembrete');
 
         return response()->json(['msg' => 'Registro cadastrado com sucesso', 'data' => new AvisoResource($aviso)], 200);
     }
@@ -84,6 +99,8 @@ class AvisoController extends Controller
     {
         $aviso = Aviso::find($id);
 
+        $aviso->load('funcionario', 'turmas', 'lembrete');
+
         if (!$aviso) {
             return response()->json(['error' => 'Registro não encontrado!'], 404);
         }
@@ -97,7 +114,7 @@ class AvisoController extends Controller
      * @param \Illuminate\Http\Request $requesttitulo
      * @param int                      $id
      *
-     * @return \Illuminate\Http JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -118,23 +135,41 @@ class AvisoController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'titulo' => 'required|string|max:255',
-            'texto'           => 'nullable',
-            'arquivo'         => 'nullable',
-            'data_publicacao' => 'required',
-            'data_expiracao'  => 'nullable',
-            'prioridade'      => ['nullable', Rule::in([PrioridadeAviso::Alta->value, PrioridadeAviso::Media->value, PrioridadeAviso::Baixa->value])],
-            'funcionario_id'  => 'required',
-            'canal_id'        => 'required',
+            'titulo'                 => 'required|string|max:255',
+            'texto'                  => 'nullable',
+            'arquivo'                => 'nullable',
+            'data_publicacao'        => 'required',
+            'data_expiracao'         => 'nullable',
+            'prioridade'             => ['nullable', Rule::in([PrioridadeAviso::Alta->value, PrioridadeAviso::Media->value, PrioridadeAviso::Baixa->value])],
+            'funcionario_id'         => 'required',
+            'canal_id'               => 'required',
+            'lembrete.data_lembrete' => 'nullable',
         ], [
             'prioridade.in' => 'O valor da prioridade é inválido. Valores válidos: 1 (Alta), 2 (Média), 3 (Baixa).',
         ]);
+
+        // validate that if 'lembrete.data.data_lembrete' is set, then 'lembrete.data.data_lembrete' must be a valid date
+        $validator->sometimes('lembrete.data_lembrete', 'date', function ($input) {
+            return isset($input->lembrete['data_lembrete']);
+        });
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $aviso->update($data);
+        if (isset($data['lembrete']['data_lembrete'])) {
+            $lembrete = $data['lembrete'];
+            unset($data['lembrete']);
+
+            $aviso->update($data);
+            $aviso->lembrete()->updateOrCreate($lembrete);
+        } else {
+            unset($data['lembrete']);
+
+            $aviso->update($data);
+        }
+
+        $aviso->load('lembrete');
 
         return response()->json(['msg' => 'Registro atualizado com sucesso!', 'data' => new AvisoResource($aviso)], 200);
     }

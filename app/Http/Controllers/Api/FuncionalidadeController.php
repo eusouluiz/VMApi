@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\FuncionalidadeResource;
 use App\Models\Funcionalidade;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class FuncionalidadeController extends Controller
 {

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\CargoResource;
 use App\Models\Cargo;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class CargoController extends Controller
 {
@@ -60,7 +60,6 @@ class CargoController extends Controller
      */
     public function show($id)
     {
-
         $cargo = Cargo::with('funcionarios.user', 'funcionalidades')->find($id);
 
         if (!$cargo) {
@@ -118,7 +117,7 @@ class CargoController extends Controller
         }
 
         $cargo->funcionarios()->update(['cargo_id' => null]);
-        
+
         $cargo->delete();
 
         return response()->json(['msg' => 'Registro removido com sucesso!'], 200);

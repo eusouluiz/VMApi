@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Models\CanalResponsavelResource;
 use App\Models\CanalResponsavel;
 use App\Models\Mensagem;
-use App\Http\Resources\Models\CanalResponsavelResource;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class CanalResponsavelController extends Controller
 {
@@ -42,7 +42,6 @@ class CanalResponsavelController extends Controller
         return response()->json(CanalResponsavelResource::collection($canalResponsavel), 200);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -71,8 +70,8 @@ class CanalResponsavelController extends Controller
 
         if ($existeRegistro) {
             return response()->json([
-                'msg' => 'Essa combinação de canal e responsável já existe.',
-                'data' => new CanalResponsavelResource($existeRegistro)
+                'msg'  => 'Essa combinação de canal e responsável já existe.',
+                'data' => new CanalResponsavelResource($existeRegistro),
             ], 400);
         }
 
@@ -88,11 +87,10 @@ class CanalResponsavelController extends Controller
 
         // Usar o resource para formatar a resposta
         return response()->json([
-            'msg' => 'Registro cadastrado com sucesso',
-            'data' => new CanalResponsavelResource($canalResponsavel)
+            'msg'  => 'Registro cadastrado com sucesso',
+            'data' => new CanalResponsavelResource($canalResponsavel),
         ], 200);
     }
-
 
     /**
      * Display the specified resource.
@@ -128,7 +126,6 @@ class CanalResponsavelController extends Controller
 
         return response()->json(new CanalResponsavelResource($canalResponsavel), 200);
     }
-
 
     /**
      * Update the specified resource in storage.

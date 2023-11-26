@@ -32,12 +32,12 @@ class AvisoResource extends BaseResource
             'data_publicacao' => $this->resource->data_publicacao,
             'data_expiracao'  => $this->resource->data_expiracao,
             'prioridade'      => $this->resource->prioridade,
-            'canal_id'      => $this->resource->canal_id,
+            'canal_id'        => $this->resource->canal_id,
             'funcionario'     => new FuncionarioResource($this->whenLoaded('funcionario')),
             'canal'           => new CanalResource($this->whenLoaded('canal')),
-            'responsaveis' => ResponsavelResource::collection($this->whenLoaded('responsaveis')),
-            'turmas'        => TurmaResource::collection($this->whenLoaded('turmas')),
-        
+            'responsaveis'    => ResponsavelResource::collection($this->whenLoaded('responsaveis')),
+            'turmas'          => TurmaResource::collection($this->whenLoaded('turmas')),
+            'lembrete'        => new LembreteResource($this->whenLoaded('lembrete')),
         ];
     }
 }

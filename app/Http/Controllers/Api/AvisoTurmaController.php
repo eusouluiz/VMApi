@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AvisoTurma;
 use DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class AvisoTurmaController extends Controller
 {
@@ -125,7 +125,9 @@ class AvisoTurmaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $avisoId
+     * @param mixed $turmaId
      *
      * @return \Illuminate\Http\JsonResponse
      */

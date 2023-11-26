@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Models\CanalResource;
+use App\Models\Aviso;
+use App\Models\Canal;
 use App\Models\CanalResponsavel;
 use App\Models\Mensagem;
-use App\Models\Canal;
-use App\Models\Aviso;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class CanalController extends Controller
 {
@@ -63,7 +63,6 @@ class CanalController extends Controller
      */
     public function show($id)
     {
-
         $canal = Canal::with('cargos')->find($id);
 
         if (!$canal) {
@@ -112,7 +111,6 @@ class CanalController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function destroy($id)
     {
         $canal = Canal::find($id);

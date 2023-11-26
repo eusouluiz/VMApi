@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Enums\PrioridadeAviso;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Aviso extends BaseModel
 {
@@ -57,13 +57,13 @@ class Aviso extends BaseModel
     }
 
     /*
-    * Get the lembretes for the aviso.
+    * Get the lembrete for the aviso.
     *
-    * @return HasMany<Lembrete>
+    * @return HasOne<Lembrete>
     */
-    public function lembretes(): HasMany
+    public function lembrete(): HasOne
     {
-        return $this->hasMany(Lembrete::class);
+        return $this->hasOne(Lembrete::class);
     }
 
     /*

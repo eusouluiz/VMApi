@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AvisoResponsavel;
 use DB;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class AvisoResponsavelController extends Controller
 {

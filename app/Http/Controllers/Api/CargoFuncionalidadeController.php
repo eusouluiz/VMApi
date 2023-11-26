@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\CargoFuncionalidade;
-use Validator;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CargoFuncionalidadeController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -34,14 +33,15 @@ class CargoFuncionalidadeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cargo_id' => 'required|exists:cargos,id',
-            'funcionalidade_id' => 'required|exists:funcionalidades,id'
+            'cargo_id'          => 'required|exists:cargos,id',
+            'funcionalidade_id' => 'required|exists:funcionalidades,id',
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +60,7 @@ class CargoFuncionalidadeController extends Controller
         }
 
         $data = [
-            'cargo_id' => $cargoId,
+            'cargo_id'          => $cargoId,
             'funcionalidade_id' => $funcionalidadeId,
         ];
 
@@ -72,7 +72,8 @@ class CargoFuncionalidadeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
@@ -94,8 +95,9 @@ class CargoFuncionalidadeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
@@ -107,8 +109,8 @@ class CargoFuncionalidadeController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'cargo_id' => 'required|exists:cargos,id',
-            'funcionalidade_id' => 'required|exists:funcionalidades,id'
+            'cargo_id'          => 'required|exists:cargos,id',
+            'funcionalidade_id' => 'required|exists:funcionalidades,id',
         ]);
 
         if ($validator->fails()) {
@@ -123,7 +125,10 @@ class CargoFuncionalidadeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int   $id
+     * @param mixed $cargoId
+     * @param mixed $funcionalidadeId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($cargoId, $funcionalidadeId)

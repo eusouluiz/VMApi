@@ -12,13 +12,15 @@ return new class() extends Migration {
     {
         Schema::create('lembretes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('titulo');
+            $table->string('titulo')->nullable();
             $table->text('texto')->nullable();
             $table->dateTime('data_lembrete');
 
             $table->foreignUuid('aviso_id')
                 ->index()
-                ->constrained('avisos');
+                ->unique()
+                ->constrained('avisos')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
