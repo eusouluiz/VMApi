@@ -22,11 +22,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-
-        if ($users->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => UserResource::collection($users)], 404);
-        }
-
+        
         return response()->json(UserResource::collection($users), 200);
     }
 

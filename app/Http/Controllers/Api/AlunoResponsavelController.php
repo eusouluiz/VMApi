@@ -28,10 +28,6 @@ class AlunoResponsavelController extends Controller
             )
             ->get();
 
-        if ($alunoResponsavel->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $alunoResponsavel], 404);
-        }
-
         return response()->json($alunoResponsavel, 200);
     }
 

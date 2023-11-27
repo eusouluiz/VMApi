@@ -23,10 +23,6 @@ class CargoFuncionalidadeController extends Controller
             ->select('cargo_funcionalidade.*', 'C.nome as cargo_nome', 'F.nome as funcionalidade_nome')
             ->get();
 
-        if ($cargoFuncionalidade->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $cargoFuncionalidade], 404);
-        }
-
         return response()->json($cargoFuncionalidade, 200);
     }
 

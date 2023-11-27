@@ -22,10 +22,6 @@ class CanalController extends Controller
     {
         $canal = Canal::with('cargos')->get();
 
-        if ($canal->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CanalResource::collection($canal)], 404);
-        }
-
         return response()->json(CanalResource::collection($canal), 200);
     }
 

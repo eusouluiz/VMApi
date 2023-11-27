@@ -21,10 +21,6 @@ class CanalResponsavelController extends Controller
     {
         $canalResponsavel = CanalResponsavel::with('canal', 'responsavel.user')->get();
 
-        if ($canalResponsavel->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CanalResponsavelResource::collection($canalResponsavel)], 404);
-        }
-
         return response()->json(CanalResponsavelResource::collection($canalResponsavel), 200);
     }
 

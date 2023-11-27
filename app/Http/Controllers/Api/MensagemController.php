@@ -20,10 +20,6 @@ class MensagemController extends Controller
     {
         $mensagem = Mensagem::all();
 
-        if ($mensagem->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => MensagemResource::collection($mensagem)], 404);
-        }
-
         return response()->json(MensagemResource::collection($mensagem), 200);
     }
 

@@ -20,10 +20,6 @@ class FuncionarioController extends Controller
     {
         $funcionarios = Funcionario::all()->load('user', 'cargo');
 
-        if ($funcionarios->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => FuncionarioResource::collection($funcionarios)], 404);
-        }
-
         return response()->json(FuncionarioResource::collection($funcionarios), 200);
     }
 

@@ -24,10 +24,6 @@ class AvisoResponsavelController extends Controller
             ->select('aviso_responsavel.*', 'A.texto as aviso_texto', 'U.nome as responsavel_nome')
             ->get();
 
-        if ($avisoResponsavel->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $avisoResponsavel], 404);
-        }
-
         return response()->json($avisoResponsavel, 200);
     }
 

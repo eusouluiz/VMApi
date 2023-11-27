@@ -19,10 +19,6 @@ class CargoController extends Controller
     {
         $cargo = Cargo::all();
 
-        if ($cargo->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => CargoResource::collection($cargo)], 404);
-        }
-
         return response()->json(CargoResource::collection($cargo), 200);
     }
 

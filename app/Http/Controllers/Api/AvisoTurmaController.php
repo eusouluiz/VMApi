@@ -23,10 +23,6 @@ class AvisoTurmaController extends Controller
             ->select('aviso_turma.*', 'AV.texto as aviso_texto', 'T.nome as turma_nome')
             ->get();
 
-        if ($avisoTurma->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $avisoTurma], 404);
-        }
-
         return response()->json($avisoTurma, 200);
     }
 

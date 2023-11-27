@@ -19,10 +19,6 @@ class FuncionalidadeController extends Controller
     {
         $funcionalidade = Funcionalidade::all();
 
-        if ($funcionalidade->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => FuncionalidadeResource::collection($funcionalidade)], 404);
-        }
-
         return response()->json(FuncionalidadeResource::collection($funcionalidade), 200);
     }
 

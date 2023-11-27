@@ -20,10 +20,6 @@ class LembreteController extends Controller
     {
         $lembretes = Lembrete::all();
 
-        if ($lembretes->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => LembreteResource::collection($lembretes)], 404);
-        }
-
         return response()->json(LembreteResource::collection($lembretes), 200);
     }
 

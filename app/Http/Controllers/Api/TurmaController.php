@@ -19,10 +19,6 @@ class TurmaController extends Controller
     {
         $turma = Turma::all();
 
-        if ($turma->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => TurmaResource::collection($turma)], 404);
-        }
-
         return response()->json(TurmaResource::collection($turma), 200);
     }
 

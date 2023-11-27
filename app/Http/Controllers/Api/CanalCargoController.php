@@ -23,10 +23,6 @@ class CanalCargoController extends Controller
             ->select('canal_cargo.*', 'C.nome as canal_nome', 'CR.nome as cargo_nome')
             ->get();
 
-        if ($canalCargo->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $canalCargo], 404);
-        }
-
         return response()->json($canalCargo, 200);
     }
 

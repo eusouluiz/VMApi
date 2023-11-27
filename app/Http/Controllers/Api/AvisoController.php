@@ -22,10 +22,6 @@ class AvisoController extends Controller
     {
         $avisos = Aviso::with('funcionario', 'turmas', 'lembrete')->get();
 
-        if ($avisos->isEmpty()) {
-            return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => []], 404);
-        }
-
         return response()->json(['data' => AvisoResource::collection($avisos)], 200);
     }
 
