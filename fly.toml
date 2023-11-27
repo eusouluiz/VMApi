@@ -21,7 +21,7 @@ console_command = "php /var/www/html/artisan tinker"
   SESSION_DRIVER = "cookie"
   SESSION_SECURE_COOKIE = "true"
 
-  APP_NAME="Carbonaut Boilerplate"
+  APP_NAME="VMApi "
   APP_DOMAIN="vmapi.fly.dev"
   APP_KEY=""
   APP_DEBUG=false

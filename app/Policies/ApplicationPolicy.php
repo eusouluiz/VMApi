@@ -16,7 +16,7 @@ class ApplicationPolicy
     public function toggleMaintenance(?User $user): bool
     {
         if ($user instanceof User) {
-            return $user->email === 'hello@carbonaut.io';
+            return $user->email === 'hello@VMApi.io';
         }
 
         return false;

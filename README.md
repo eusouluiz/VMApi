@@ -1,14 +1,14 @@
 <h1 style="display: flex;align-items:center;">
-<img src="https://user-images.githubusercontent.com/20388082/89651773-cb900d00-d89a-11ea-99bb-d5e97b1609d0.png" width="50" alt="Carbonaut Logo" style="margin-right:5px;">
-Carbonaut's Laravel API Boilerplate
+<img src="https://user-images.githubusercontent.com/20388082/89651773-cb900d00-d89a-11ea-99bb-d5e97b1609d0.png" width="50" alt="VMApi Logo" style="margin-right:5px;">
+VMApi's Laravel API 
 </h1>
 
-![integration](https://github.com/carbonaut/boilerplate-api-laravel/workflows/integration/badge.svg)
+![integration](https://github.com/VMApi/-api-laravel/workflows/integration/badge.svg)
 
 Nothing better than getting to action without worrying about the repetitive and boring 
 parts of bootstrapping a project, right?
 
-That's why we've built this awesome boilerplate so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
+That's why we've built this awesome  so you can focus on your project's ideas and get the boring, albeit important, parts out of the way.
 
 - Language: PHP 8.2
 - Framework: Laravel 10
@@ -50,7 +50,7 @@ That's why we've built this awesome boilerplate so you can focus on your project
 
 ## Package Recommendations
 
-We did not add the following packages in order to keep this boilerplate as slim as possible.
+We did not add the following packages in order to keep this  as slim as possible.
 But they are excellent assets on our projects.
 
 - [Eloquent Sortable](https://github.com/spatie/eloquent-sortable) that adds sortable behaviour to an Eloquent model.
@@ -65,8 +65,8 @@ But they are excellent assets on our projects.
 Make sure you have PHP and PostgreSQL installed and running locally. Rename `.env.example.local` to `.env` and change the default values. You're good to go! For running tests make sure you have SQLite available.
 
 ```sh
-$ git clone https://github.com/carbonaut/boilerplate-api-laravel
-$ cd boilerplate-api-laravel
+$ git clone https://github.com/VMApi/-api-laravel
+$ cd -api-laravel
 $ composer install
 $ cp .env.example.local .env
 $ cp .env.example.test .env.test
@@ -83,7 +83,7 @@ The manual dockerization was removed in favor of [Laravel Sail](https://laravel.
 ## Deployment
 We recommend using [Laravel Forge](https://forge.laravel.com/) or [Laravel Vapor](https://vapor.laravel.com/) to deploy your Laravel application. More information can be found on their respective documentations. 
 
-If you want to deploy on AWS ElasticBeanstalk using Github Actions, check the [files that were removed](https://github.com/carbonaut/boilerplate-api-laravel/commit/a6edcc336d9cfb0bdedd5ec209b0d66f18bf410d) from this boilerplate.
+If you want to deploy on AWS ElasticBeanstalk using Github Actions, check the [files that were removed](https://github.com/VMApi/-api-laravel/commit/a6edcc336d9cfb0bdedd5ec209b0d66f18bf410d) from this .
 
 ### Deployment Checklist
 - [ ] I have used the correct environment variables, especially `APP_ENV=production` and `APP_DEBUG=false`;
@@ -94,7 +94,7 @@ If you want to deploy on AWS ElasticBeanstalk using Github Actions, check the [f
 
 ## Contributing
 
-If you find any problems, please report them with [Issues](https://github.com/carbonaut/boilerplate-api-laravel/issues).
+If you find any problems, please report them with [Issues](https://github.com/VMApi/-api-laravel/issues).
 
 Also, PRs are always welcome :)
 
@@ -103,6 +103,6 @@ Also, PRs are always welcome :)
 
 ## Acknowledgements
 - OAuth2 (implemented by Passport) does not recommend the use of Password Grants anymore and suggests using [Authorization Code Grant](https://oauth2.thephpleague.com/authorization-server/which-grant/) instead. Since we'll not be authenticating third-party applications, we changed from [Passport](https://laravel.com/docs/10.x/passport) to [Sanctum](https://laravel.com/docs/10.x/sanctum);
-- Even though a way of storing user devices is available, there's no scaffolding or examples on how to send a message. This should be implemented in future versions using [Notifications](https://laravel.com/docs/10.x/notifications) and [Notification Channels](https://laravel-notification-channels.com/). See [previous implementation](https://github.com/carbonaut/boilerplate-api-laravel/commit/3db896a57091e13c83cb2f134539870da44ef10c);
-- Our [custom user profile](https://github.com/carbonaut/boilerplate-api-laravel/commit/4489b533fe24f0a6148c82d8cdb92cb42ba5d5c8) solution was removed. You should either use [spatie/laravel-permission](https://github.com/spatie/laravel-permission) or wait until we release our custom package;
-- Currently the emails are only being dispatched into the queue and sent to the user. Ideally we'd like to keep track of the emails that were sent, their send status, recipient and even a route to keep track if the user has opened the email. The [previous code](https://github.com/carbonaut/boilerplate-api-laravel/commit/3422f84f49bac6212edf3ce968aa3e90c4e66a64) used by this boilerplate was removed in favor of a proper implementation that should be done in the future;
+- Even though a way of storing user devices is available, there's no scaffolding or examples on how to send a message. This should be implemented in future versions using [Notifications](https://laravel.com/docs/10.x/notifications) and [Notification Channels](https://laravel-notification-channels.com/). See [previous implementation](https://github.com/VMApi/-api-laravel/commit/3db896a57091e13c83cb2f134539870da44ef10c);
+- Our [custom user profile](https://github.com/VMApi/-api-laravel/commit/4489b533fe24f0a6148c82d8cdb92cb42ba5d5c8) solution was removed. You should either use [spatie/laravel-permission](https://github.com/spatie/laravel-permission) or wait until we release our custom package;
+- Currently the emails are only being dispatched into the queue and sent to the user. Ideally we'd like to keep track of the emails that were sent, their send status, recipient and even a route to keep track if the user has opened the email. The [previous code](https://github.com/VMApi/-api-laravel/commit/3422f84f49bac6212edf3ce968aa3e90c4e66a64) used by this  was removed in favor of a proper implementation that should be done in the future;

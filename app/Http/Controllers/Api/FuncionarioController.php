@@ -61,16 +61,7 @@ class FuncionarioController extends Controller
      */
     public function show(Funcionario $funcionario)
     {
-        // $funcionario = DB::table('funcionarios AS F')
-        //     ->join('users AS U', 'F.user_id', '=', 'U.id')
-        //     ->select('F.*', 'U.nome as user_nome')
-        //     ->where('F.id', '=', $id)
-        //     ->first();
-
-        // if (!$funcionario) {
-        //     return response()->json(['error' => 'Registro não encontrado!'], 404);
-        // }
-
+      
         $funcionario->loadMissing('user', 'cargo');
 
         return response()->json(new FuncionarioResource($funcionario), 200);

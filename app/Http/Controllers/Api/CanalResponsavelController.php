@@ -16,21 +16,7 @@ class CanalResponsavelController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    // public function index()
-    // {
-    //     $canalResponsavel = DB::table('canal_responsavel')
-    //         ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
-    //         ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
-    //         ->join('users AS U', 'R.user_id', '=', 'U.id')
-    //         ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
-    //         ->get();
 
-    //     if ($canalResponsavel->isEmpty()) {
-    //         return response()->json(['msg' => 'Nenhum registro encontrado', 'data' => $canalResponsavel], 404);
-    //     }
-
-    //     return response()->json($canalResponsavel, 200);
-    // }
     public function index()
     {
         $canalResponsavel = CanalResponsavel::with('canal', 'responsavel.user')->get();
@@ -99,22 +85,6 @@ class CanalResponsavelController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    // public function show($id)
-    // {
-    //     $canalResponsavel = DB::table('canal_responsavel')
-    //         ->join('canais AS C', 'canal_responsavel.canal_id', '=', 'C.id')
-    //         ->join('responsaveis AS R', 'canal_responsavel.responsavel_id', '=', 'R.id')
-    //         ->join('users AS U', 'R.user_id', '=', 'U.id')
-    //         ->select('canal_responsavel.*', 'C.nome as canal_nome', 'U.nome as responsavel_nome')
-    //         ->where('canal_responsavel.id', '=', $id)
-    //         ->first();
-
-    //     if (!$canalResponsavel) {
-    //         return response()->json(['error' => 'Registro não encontrado!'], 404);
-    //     }
-
-    //     return response()->json($canalResponsavel, 200);
-    // }
 
     public function show($id)
     {
@@ -166,18 +136,7 @@ class CanalResponsavelController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    // public function destroy($id)
-    // {
-    //     $canalResponsavel = CanalResponsavel::find($id);
 
-    //     if (!$canalResponsavel) {
-    //         return response()->json(['error' => 'Registro não encontrado!'], 404);
-    //     }
-
-    //     $canalResponsavel->delete();
-
-    //     return response()->json(['msg' => 'Registro removido com sucesso!'], 200);
-    // }
     public function destroy($id)
     {
         $canalResponsavel = CanalResponsavel::find($id);

@@ -765,13 +765,13 @@ components:
       properties:
         email:
           type: string
-          example: "hello@carbonaut.io"
+          example: "hello@VMApi.io"
     AuthPostPasswordResetSubmit:
       type: object
       properties:
         email:
           type: string
-          example: "hello@carbonaut.io"
+          example: "hello@VMApi.io"
         new_password:
           type: string
           example: "new-password"

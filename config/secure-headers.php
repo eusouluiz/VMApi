@@ -501,8 +501,8 @@ return [
         'connect-src' => [
             'self'  => true,
             'allow' => [
-                'carbonaut.dev',
-                'carbonaut.io',
+                'VMApi.dev',
+                'VMApi.io',
             ],
         ],
 
